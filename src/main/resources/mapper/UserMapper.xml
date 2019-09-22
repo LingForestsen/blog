@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sen.blog.dao.UserDao">
+    <sql id="UserColumns">
+        a.user_id AS id,
+        a.user_name AS name,
+        a.user_pass AS pass,
+        a.user_nickname AS nickName,
+        a.user_email AS email,
+        a.user_url AS url,
+        a.user_avatar AS avatar,
+        a.user_last_login_ip AS lastLoginIp,
+        a.user_register_time AS registerTime,
+        a.user_last_login_time AS lastLoginTime,
+        a.user_status AS status,
+        a.user_salt AS salt,
+        a.user_permission AS permission
+    </sql>
+
+    <select id="login" resultType="User">
+        SELECT
+        <include refid="UserColumns"/>
+        FROM
+        user AS a
+        WHERE
+        a.user_name = #{name}
+    </select>
+    <update id="update">
+        UPDATE user set
+        user_name = #{name},
+        user_pass = #{pass},
+        user_nickname = #{nickName},
+        user_email = #{email},
+        user_url = #{url},
+        user_avatar = #{avatar},
+        user_last_login_ip = #{lastLoginIp},
+        user_register_time = #{registerTime},
+        user_last_login_time = #{lastLoginTime},
+        user_status = #{status},
+        user_salt = #{salt},
+        user_permission = #{permission}
+        WHERE user_id = #{id}
+    </update>
+
+</mapper>
