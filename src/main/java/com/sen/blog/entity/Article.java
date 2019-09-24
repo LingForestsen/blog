@@ -28,7 +28,9 @@ public class Article implements Serializable {
     private int articleCommentCount;
 
     private int articleLikeCount;
-
+    /**
+     * 是否允许评论
+     */
     private int articleIsComment;
     /**
      * 文章状态 1 为已发布，0为草稿
@@ -43,8 +45,12 @@ public class Article implements Serializable {
 
     private String articleSummary;
     /**
-     * 文章分类（多对多）
+     * 文章分类（非数据库字段）
      */
     private List<Category> categoryList;
+    /**
+     * 文章标签（非数据库字段）
+     */
+    private List<Tag> tagList;
 
 }

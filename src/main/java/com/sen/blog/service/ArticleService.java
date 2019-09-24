@@ -1,7 +1,9 @@
 package com.sen.blog.service;
 
 import com.github.pagehelper.PageInfo;
+import com.sen.blog.dto.ArticleDto;
 import com.sen.blog.entity.Article;
+import com.sen.blog.entity.User;
 
 import java.util.List;
 
@@ -24,4 +26,10 @@ public interface ArticleService {
      * @return
      */
     PageInfo<Article> listArticleAndCategory(int pageIndex, int pageSize);
+
+    /**
+     * 新增文章
+     * @param articleDto
+     */
+    void saveArticle(ArticleDto articleDto, User user);
 }

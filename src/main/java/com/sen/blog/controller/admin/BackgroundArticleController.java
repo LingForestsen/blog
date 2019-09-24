@@ -1,17 +1,21 @@
 package com.sen.blog.controller.admin;
 
+import cn.hutool.http.HtmlUtil;
 import com.github.pagehelper.PageInfo;
+import com.sen.blog.common.BeanValidator;
+import com.sen.blog.dto.ArticleDto;
 import com.sen.blog.entity.Article;
+import com.sen.blog.entity.User;
 import com.sen.blog.service.ArticleService;
 import com.sen.blog.service.CategoryService;
 import com.sen.blog.service.TagService;
+import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import sun.net.idn.Punycode;
 
 /**
  * @Auther: Sen
@@ -53,7 +57,7 @@ public class BackgroundArticleController {
     }
 
     /**
-     * 跳转文章插入文章页面
+     * 跳转插入文章页面
      * @param model
      * @return
      */
@@ -62,5 +66,27 @@ public class BackgroundArticleController {
         model.addAttribute("categoryList", categoryService.listCategory());
         model.addAttribute("tagList", tagService.listTag());
         return "/admin/article/insert";
+    }
+
+    /**
+     * 新增文章
+     * @param articleDto
+     * @param model
+     * @return
+     */
+    @RequestMapping(value = "/insertSubmit",method = RequestMethod.POST)
+    public String insertArticle(ArticleDto articleDto, Model model) {
+        //验证articleDto是否合法
+        String vaildateMessage = BeanValidator.validator(articleDto);
+        if (vaildateMessage != null) {
+            String cleanMsg = HtmlUtil.cleanHtmlTag(vaildateMessage);
+            model.addAttribute("vaildateMessage", cleanMsg);
+            return "redirect:/admin/article/insert";
+        }
+        //从shiro获取当前登录的用户
+        User user = (User) SecurityUtils.getSubject().getPrincipal();
+
+        articleService.saveArticle(articleDto, user);
+        return "redirect:/admin/article";
     }
 }

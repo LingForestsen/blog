@@ -18,7 +18,7 @@
         a.article_user_id AS articleUserId,
         a.article_title AS articleTitle,
         a.article_content AS articleContent,
-        a.article_view_count AS articleVew_count,
+        a.article_view_count AS articleViewCount,
         a.article_comment_count AS articleCommentCount,
         a.article_like_count AS articleLikCount,
         a.article_is_comment AS articleIsComment,
@@ -28,7 +28,7 @@
         a.article_create_time AS articleCreateTime,
         a.article_summary AS articleSummary
     </sql>
-    <select id="listArticle" resultType="Article">
+    <select id="listArticle"  resultType="Article">
         SELECT
         <include refid="articleColumns"/>
         FROM article AS a
@@ -36,22 +36,54 @@
     </select>
 
     <select id="listArticleAndCategory" resultMap="articleCategory">
-        SELECT
-        a.article_id
-        ,a.article_status
-        ,a.article_create_time
-        ,a.article_title
-        ,c.category_name
-        FROM article a
-        JOIN article_category_ref b
-        ON a.article_id=b.article_id
-        JOIN category c
-        ON c.category_id=b.category_id
-        ORDER BY a.article_create_time DESC
+            SELECT
+            a.article_id
+            ,a.article_status
+            ,a.article_create_time
+            ,a.article_title
+            ,IFNULL(c.category_name,"未分类") AS category_name
+            FROM article a
+            LEFT JOIN article_category_ref b
+            ON a.article_id=b.article_id
+            LEFT JOIN category c
+            ON c.category_id=b.category_id
+            ORDER BY a.article_create_time DESC
     </select>
-
     <select id="count" resultType="java.lang.Integer">
         SELECT COUNT(*) FROM article;
     </select>
+
+    <insert id="saveArticle" useGeneratedKeys="true" keyProperty="articleId" flushCache="true">
+        INSERT INTO
+        article(
+        article_user_id,
+        article_title,
+        article_content,
+        article_view_count,
+        article_comment_count,
+        article_like_count,
+        article_is_comment,
+        article_status,
+        article_order,
+        article_update_time,
+        article_create_time,
+        article_summary
+        )
+        VALUES(
+        #{articleUserId},
+        #{articleTitle},
+        #{articleContent},
+        #{articleViewCount},
+        #{articleCommentCount},
+        #{articleLikeCount},
+        #{articleIsComment},
+        #{articleStatus},
+        #{articleOrder},
+        #{articleUpdateTime},
+        #{articleCreateTime},
+        #{articleSummary}
+        )
+    </insert>
+
 
 </mapper>

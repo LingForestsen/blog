@@ -29,4 +29,11 @@ public interface ArticleDao {
      * @return
      */
     int count();
+
+    /**
+     * 新增文章
+     * @param article
+     * @return 主键回填id
+     */
+    int saveArticle(Article article);
 }

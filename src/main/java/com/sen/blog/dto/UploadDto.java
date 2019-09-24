@@ -10,8 +10,8 @@ import lombok.Data;
 @Data
 public class UploadDto {
 
-    private String url;
+    private String src;
 
-    private String fileName;
+    private String title;
 }
 

@@ -105,6 +105,8 @@
 
 </rapid:override>
 <rapid:override name="footer-script">
-    <script></script>
+    <script>
+
+    </script>
 </rapid:override>
 <%@ include file="../public/framework.jsp" %>

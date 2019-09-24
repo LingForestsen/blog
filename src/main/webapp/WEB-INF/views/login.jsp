@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: Sen
@@ -91,7 +92,7 @@
 <script type="text/javascript">
     $(function () {
         var message = '${message}';
-        if (message != null && message.length !=0) {
+        if (message != null && message.length > 0) {
             alert(message)
         }
     })

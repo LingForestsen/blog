@@ -41,7 +41,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label">分类 <span style="color: #FF5722; ">*</span> </label>
             <div class="layui-input-inline">
-                <select name="articleParentCategoryId" id="articleParentCategoryId" lay-filter="articleParentCategoryId" required>
+                <select name="articleCategoryIds" id="articleParentCategoryId" lay-filter="articleParentCategoryId" required>
                     <option value="" selected="">一级分类</option>
                     <c:forEach items="${categoryList}" var="c">
                         <c:if test="${c.categoryPid==0}">
@@ -51,7 +51,7 @@
                 </select>
             </div>
             <div class="layui-input-inline">
-                <select name="articleChildCategoryId" id="articleChildCategoryId">
+                <select name="articleCategoryIds" id="articleChildCategoryId" required>
                     <option value="" selected>二级分类</option>
                 </select>
             </div>
@@ -168,9 +168,14 @@
 //            return "确认离开当前页面吗？未保存的数据将会丢失";
 //        }
 
+       $(function () {
+           var msg = "${vaildateMessage}";
+           if (msg != null && msg.length > 0) {
+               alert(msg);
+           }
+        })
 
-
-    </script>p
+    </script>
 p
 </rapid:override>
 
