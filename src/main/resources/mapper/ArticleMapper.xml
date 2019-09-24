@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sen.blog.dao.ArticleDao">
+    <cache type="org.mybatis.caches.ehcache.EhcacheCache"/>
+
+    <resultMap id="articleCategory" type="Article">
+        <id column="article_id" property="articleId"/>
+        <result column="article_title" property="articleTitle"/>
+        <result column="article_create_time" property="articleCreateTime"/>
+        <result column="article_status" property="articleStatus"/>
+        <collection property="categoryList" ofType="Category">
+            <result column="category_name" property="categoryName"/>
+        </collection>
+    </resultMap>
+
+    <sql id="articleColumns">
+        a.article_id AS articleId,
+        a.article_user_id AS articleUserId,
+        a.article_title AS articleTitle,
+        a.article_content AS articleContent,
+        a.article_view_count AS articleVew_count,
+        a.article_comment_count AS articleCommentCount,
+        a.article_like_count AS articleLikCount,
+        a.article_is_comment AS articleIsComment,
+        a.article_status AS articleStatus,
+        a.article_order AS articleOrder,
+        a.article_update_time AS articleUpdateTime,
+        a.article_create_time AS articleCreateTime,
+        a.article_summary AS articleSummary
+    </sql>
+    <select id="listArticle" resultType="Article">
+        SELECT
+        <include refid="articleColumns"/>
+        FROM article AS a
+        ORDER BY a.article_create_time DESC limit 5;
+    </select>
+
+    <select id="listArticleAndCategory" resultMap="articleCategory">
+        SELECT
+        a.article_id
+        ,a.article_status
+        ,a.article_create_time
+        ,a.article_title
+        ,c.category_name
+        FROM article a
+        JOIN article_category_ref b
+        ON a.article_id=b.article_id
+        JOIN category c
+        ON c.category_id=b.category_id
+        ORDER BY a.article_create_time DESC
+    </select>
+
+    <select id="count" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM article;
+    </select>
+
+</mapper>

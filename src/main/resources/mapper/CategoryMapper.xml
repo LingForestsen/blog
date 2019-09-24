@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sen.blog.dao.CategoryDao">
+
+    <cache type="org.mybatis.caches.ehcache.EhcacheCache"/>
+
+    <sql id="categoryColumns">
+        a.category_id AS categoryId,
+        a.category_pid AS categoryPid,
+        a.category_name AS categoryName,
+        a.category_description AS categoryDescription,
+        a.category_order AS categoryOrder,
+        a.category_icon AS categoryIcon
+    </sql>
+
+    <select id="listCategory" resultType="Category">
+        SELECT *,COUNT(ref.`article_id`) AS articleCount
+        FROM
+        category c LEFT JOIN article_category_ref ref
+        ON c.`category_id` = ref.`category_id`
+        GROUP BY c.`category_id`
+        ORDER BY c.`category_id`
+    </select>
+
+
+
+</mapper>

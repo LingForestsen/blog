@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sen.blog.dao.TagDao">
+
+    <cache type="org.mybatis.caches.ehcache.EhcacheCache"/>
+
+    <sql id="tagColumns">
+        t.tag_id AS tagId,
+        t.tag_name AS tagName,
+        t.tag_description AS tagDescription
+    </sql>
+
+    <select id="listTag" resultType="Tag">
+        SELECT *,COUNT(tr.tag_id) AS articleCount
+        FROM
+        tag t LEFT JOIN article_tag_ref tr
+        ON t.tag_id = tr.tag_id
+        GROUP BY t.tag_id
+        ORDER BY t.tag_id
+    </select>
+
+
+
+</mapper>

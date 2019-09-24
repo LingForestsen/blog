@@ -1,4 +1,4 @@
-package com.sen.blog;
+package com.sen.blog.shiro;
 
 import com.sen.blog.dao.UserDao;
 import com.sen.blog.entity.User;

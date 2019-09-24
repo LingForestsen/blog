@@ -25,21 +25,6 @@
         WHERE
         a.user_name = #{name}
     </select>
-    <update id="update">
-        UPDATE user set
-        user_name = #{name},
-        user_pass = #{pass},
-        user_nickname = #{nickName},
-        user_email = #{email},
-        user_url = #{url},
-        user_avatar = #{avatar},
-        user_last_login_ip = #{lastLoginIp},
-        user_register_time = #{registerTime},
-        user_last_login_time = #{lastLoginTime},
-        user_status = #{status},
-        user_salt = #{salt},
-        user_permission = #{permission}
-        WHERE user_id = #{id}
-    </update>
+
 
 </mapper>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sen.blog.dao.CommentDao">
+    <cache type="org.mybatis.caches.ehcache.EhcacheCache"/>
+    <sql id="commentColumns">
+        a.comment_id AS commentId,
+        a.comment_pid AS commentPid,
+        a.comment_pname AS commentPname,
+        a.comment_article_id AS commentArticleId,
+        a.comment_author_name AS commentAuthorName,
+        a.comment_author_email AS commentAuthorEmail,
+        a.comment_author_url AS commentAuthorUrl,
+        a.comment_author_avatar AS commentAuthorAvatar,
+        a.comment_content AS commentContent,
+        a.comment_agent AS commentAgent,
+        a.comment_ip AS commentIp,
+        a.comment_create_time AS commentCreateTime,
+        a.comment_role AS commentRole
+    </sql>
+    <select id="listRecentComment" resultType="Comment">
+        SELECT
+        <include refid="commentColumns"/>
+        ,b.article_title AS "article.articleTitle"
+        FROM comment AS a
+        LEFT JOIN article b
+        ON a.comment_article_id = b.article_id
+        WHERE a.comment_role=0 ORDER BY a.comment_id DESC limit 5;
+    </select>
+
+
+</mapper>

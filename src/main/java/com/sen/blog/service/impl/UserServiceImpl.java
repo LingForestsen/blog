@@ -16,6 +16,7 @@ import org.springframework.util.DigestUtils;
 public class UserServiceImpl implements UserService {
     @Autowired
     private UserDao userDao;
+
     @Override
     public User login(String name,String pass) {
         User user = userDao.login(name);
