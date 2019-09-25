@@ -16,4 +16,15 @@
         )
     </insert>
 
+    <update id="updateArticleTag" flushCache="true">
+        UPDATE article_tag_ref
+        SET
+        tag_id = #{tagId}
+        WHERE  article_id = #{articleId}
+    </update>
+
+    <delete id="deleteArticleTag" flushCache="true">
+        DELETE FROM article_tag_ref
+        WHERE article_id = #{articleId}
+    </delete>
 </mapper>

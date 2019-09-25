@@ -50,7 +50,6 @@ public class UserController {
      */
     @RequestMapping(value = "/login",method = RequestMethod.POST)
     public void login(Model model, HttpServletRequest request) {
-
         String className = (String) request.getAttribute("shiroLoginFailure");
         System.out.println(className);
         if (UnknownAccountException.class.getName().equals(className)) {

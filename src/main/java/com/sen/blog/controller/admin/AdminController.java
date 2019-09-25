@@ -1,6 +1,5 @@
 package com.sen.blog.controller.admin;
 
-import com.sen.blog.entity.Comment;
 import com.sen.blog.service.ArticleService;
 import com.sen.blog.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +26,7 @@ public class AdminController {
      */
     @RequestMapping(value = {"/","/admin"})
     public String toBackgroud(Model model) {
-        model.addAttribute("articleList", articleService.listArticle());
+        model.addAttribute("articleList", articleService.selectAll());
         model.addAttribute("commentList", commentService.listComment());
         return "/admin/index";
     }

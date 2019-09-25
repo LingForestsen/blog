@@ -1,6 +1,10 @@
 package com.sen.blog.dao;
 
+import com.sen.blog.common.BaseDao;
+import com.sen.blog.common.BaseServie;
+import com.sen.blog.entity.Article;
 import com.sen.blog.entity.Category;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -9,10 +13,13 @@ import java.util.List;
  * @Date: 2019/9/24 01:28
  * @Description:
  */
-public interface CategoryDao {
+public interface CategoryDao extends BaseDao<Category> {
+
     /**
-     *  查询所有的文章分类及对应的文章总数
+     * 通过文章id查询所有类目
+     * @param article
      * @return
      */
-    List<Category> listCategory();
+    List<Category> selectByArticleId(Article article);
+
 }

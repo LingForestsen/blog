@@ -152,7 +152,14 @@
         </div>
     </div>
 
-
+<script>
+    $(function () {
+        var msg = "${vaildateMessage}";
+        if (msg != null && msg.length > 0) {
+            alert(msg);
+        }
+    })
+</script>
 
 
 

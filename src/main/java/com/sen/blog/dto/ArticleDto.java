@@ -2,7 +2,7 @@ package com.sen.blog.dto;
 
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
-
+import org.springframework.format.annotation.DateTimeFormat;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.List;
@@ -14,6 +14,8 @@ import java.util.List;
  */
 @Data
 public class ArticleDto {
+
+    private int articleId;
 
     @Length(min = 5 , max = 20, message = "文章标题长度为5-20")
     private String articleTitle;
@@ -29,7 +31,7 @@ public class ArticleDto {
     private int articleOrder;
 
     private Date articleUpdateTime;
-
+    @DateTimeFormat(pattern="yyyy-MM-dd")
     private Date articleCreateTime;
 
     private String articleSummary;

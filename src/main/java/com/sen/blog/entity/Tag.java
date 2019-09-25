@@ -1,6 +1,8 @@
 package com.sen.blog.entity;
 
 import lombok.Data;
+
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**
@@ -14,6 +16,7 @@ public class Tag implements Serializable {
 
     private int tagId;
 
+    @NotNull(message = "标签名不能为空")
     private String tagName;
 
     private String tagDescription;
@@ -21,4 +24,11 @@ public class Tag implements Serializable {
      * 标签对应的文章数量（非数据库字段）
      */
     private int articleCount;
+
+    public Tag() {
+    }
+
+    public Tag(int tagId) {
+        this.tagId = tagId;
+    }
 }

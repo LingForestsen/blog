@@ -10,7 +10,7 @@
         t.tag_description AS tagDescription
     </sql>
 
-    <select id="listTag" resultType="Tag">
+    <select id="selectAll" resultType="Tag">
         SELECT *,COUNT(tr.tag_id) AS articleCount
         FROM
         tag t LEFT JOIN article_tag_ref tr
@@ -18,7 +18,46 @@
         GROUP BY t.tag_id
         ORDER BY t.tag_id
     </select>
+    <select id="selectOneByArticleId" resultType="Tag">
+        SELECT
+        <include refid="tagColumns"/>
+        FROM tag t
+        JOIN article_tag_ref ref
+        ON t.tag_id = ref.tag_id
+        WHERE ref.article_id = #{articleId}
+    </select>
+    <select id="selectById" resultType="Tag">
+        SELECT
+        <include refid="tagColumns"/>
+        FROM tag t
+        WHERE t.tag_id = #{tagId}
+    </select>
 
+    <update id="update" flushCache="true">
+        UPDATE tag
+        SET
+        tag_name = #{tagName},
+        tag_description =#{tagDescription}
+        WHERE tag_id = #{tagId}
+    </update>
+
+    <insert id="insert" flushCache="true">
+        INSERT INTO
+        tag(
+            tag_name,
+            tag_description
+        )
+        VALUES (
+            #{tagName},
+            #{tagDescription}
+        )
+    </insert>
+
+    <delete id="delete" flushCache="true">
+        DELETE
+        FROM tag
+        WHERE tag_id = #{tagId}
+    </delete>
 
 
 </mapper>

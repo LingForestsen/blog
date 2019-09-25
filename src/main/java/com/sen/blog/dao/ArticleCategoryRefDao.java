@@ -10,4 +10,8 @@ import org.apache.ibatis.annotations.Param;
 public interface ArticleCategoryRefDao {
 
     void saveArticleCategory(@Param("articleId") int articleId, @Param("categoryId") int categoryId);
+
+    void updateArticleCategory(@Param("articleId") int articleId, @Param("categoryId") int categoryId);
+
+    void deleteArticleCategory(@Param("articleId") int articleId);
 }

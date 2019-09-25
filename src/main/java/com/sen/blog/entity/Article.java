@@ -53,4 +53,10 @@ public class Article implements Serializable {
      */
     private List<Tag> tagList;
 
+    public Article() {
+    }
+
+    public Article(int articleId) {
+        this.articleId = articleId;
+    }
 }

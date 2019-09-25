@@ -22,7 +22,7 @@ import java.util.List;
  */
 @Service
 @Transactional(readOnly = true)
-public class ArticleServiceImpl implements ArticleService{
+public class ArticleServiceImpl implements ArticleService {
     @Autowired
     private ArticleDao articleDao;
 
@@ -33,21 +33,21 @@ public class ArticleServiceImpl implements ArticleService{
     private ArticleTagRefDao articleTagRefDao;
 
     @Override
-    public List<Article> listArticle() {
-        return articleDao.listArticle();
+    public List<Article> selectAll() {
+        return articleDao.selectAll();
     }
 
     @Override
     public PageInfo<Article> listArticleAndCategory(int pageIndex, int pageSize) {
 
-         //编辑用于分页的起始索引
+        //编辑用于分页的起始索引
         int pageStart = pageSize * (pageIndex - 1);
         List<Article> articles = articleDao.listArticleAndCategory();
         //TODO 更好的解决方案
         //查询文章总数（因为使用limit导致分页数据错误）
         int count = articleDao.count();
         //总页数
-        int pages = (count + pageSize -1)/pageSize;
+        int pages = (count + pageSize - 1) / pageSize;
 
         List<Article> targetArticle = null;
         // 不是最后一页时
@@ -64,37 +64,19 @@ public class ArticleServiceImpl implements ArticleService{
         pageInfo.setPageNum(pageIndex);
         return pageInfo;
     }
+
     @Transactional(readOnly = false)
     @Override
     public void saveArticle(ArticleDto articleDto, User user) {
-        Article article = new Article();
-        article.setArticleUserId(user.getId());
-        article.setArticleTitle(articleDto.getArticleTitle());
-        article.setArticleContent(articleDto.getArticleContent());
-        article.setArticleViewCount(1);
-        article.setArticleCommentCount(0);
-        article.setArticleLikeCount(0);
-        article.setArticleIsComment(1);
-        article.setArticleStatus(articleDto.getArticleStatus());
-        article.setArticleOrder(1);
-        article.setArticleUpdateTime(new Date());
+        Article article = commonSaveArticle(articleDto, user);
         article.setArticleCreateTime(new Date());
-        //去掉contentHTML标签
-        String summary = HtmlUtil.cleanHtmlTag(articleDto.getArticleContent());
-        //设置summary的长度
-        int lengthSummary = 150;
-        if (summary.length() > 150) {
-            article.setArticleSummary(summary.substring(0, lengthSummary - 1));
-        } else {
-            article.setArticleSummary(summary);
-        }
-        articleDao.saveArticle(article);
-        int articleId = article.getArticleId();
+        articleDao.insert(article);
         //保存文章-分类中间表
+        int articleId = article.getArticleId();
         List<Integer> categorylist = articleDto.getArticleCategoryIds();
         for (int i = 0; i < categorylist.size(); i++) {
             Integer categoryId = categorylist.get(i);
-            articleCategoryRefDao.saveArticleCategory(articleId,categoryId);
+            articleCategoryRefDao.saveArticleCategory(articleId, categoryId);
         }
 
         //保存文章-标签中间表
@@ -107,5 +89,101 @@ public class ArticleServiceImpl implements ArticleService{
         }
     }
 
+    @Transactional(readOnly = false)
+    @Override
+    public void saveArticleDraft(ArticleDto articleDto, User user) {
+        Article article = commonSaveArticle(articleDto, user);
+        articleDao.insert(article);
+    }
+
+    @Override
+    public Article selectById(Article article) {
+        return articleDao.selectById(article);
+    }
+
+    /**
+     * BaseService空实现 start
+     * @param article
+     */
+    @Override
+    public void update(Article article) {
+
+    }
+    /**
+     * BaseService空实现 end
+     * @param article
+     */
+    @Override
+    public void insert(Article article) {
+
+    }
+
+    @Transactional(readOnly = false)
+    @Override
+    public void updateArticle(ArticleDto articleDto, User user) {
+        Article article = commonSaveArticle(articleDto, user);
+        article.setArticleOrder(articleDto.getArticleOrder());
+        article.setArticleCreateTime(articleDto.getArticleCreateTime());
+        article.setArticleId(articleDto.getArticleId());
+        articleDao.update(article);
+
+        //保存文章-分类中间表
+        List<Integer> categorylist = articleDto.getArticleCategoryIds();
+        if (categorylist != null && categorylist.size() > 0) {
+            articleCategoryRefDao.deleteArticleCategory(articleDto.getArticleId());
+            for (int i = 0; i < categorylist.size(); i++) {
+                Integer categoryId = categorylist.get(i);
+                articleCategoryRefDao.saveArticleCategory(articleDto.getArticleId(), categoryId);
+            }
+        }
+
+        //保存文章-标签中间表
+        List<Integer> tagIds = articleDto.getArticleTagIds();
+        if (tagIds != null && tagIds.size() > 0) {
+            articleTagRefDao.deleteArticleTag(articleDto.getArticleId());
+            for (int i = 0; i < tagIds.size(); i++) {
+                Integer tagId = tagIds.get(i);
+                articleTagRefDao.saveArticleTag(articleDto.getArticleId(), tagId);
+            }
+        }
+    }
+    @Transactional(readOnly = false)
+    @Override
+    public void delete(Article article) {
+        articleDao.delete(article);
+        articleCategoryRefDao.deleteArticleCategory(article.getArticleId());
+        articleTagRefDao.deleteArticleTag(article.getArticleId());
+    }
+
+    /**
+     * 设置文章通用方法
+     *
+     * @param articleDto
+     * @param user
+     * @return
+     */
+    private Article commonSaveArticle(ArticleDto articleDto, User user) {
+        Article article = new Article();
+        article.setArticleUserId(user.getId());
+        article.setArticleTitle(articleDto.getArticleTitle());
+        article.setArticleContent(articleDto.getArticleContent());
+        article.setArticleViewCount(1);
+        article.setArticleCommentCount(0);
+        article.setArticleLikeCount(0);
+        article.setArticleIsComment(1);
+        article.setArticleStatus(articleDto.getArticleStatus());
+        article.setArticleOrder(1);
+        article.setArticleUpdateTime(new Date());
+        //去掉contentHTML标签
+        String summary = HtmlUtil.cleanHtmlTag(articleDto.getArticleContent());
+        //设置summary的长度
+        int lengthSummary = 150;
+        if (summary.length() > 150) {
+            article.setArticleSummary(summary.substring(0, lengthSummary - 1));
+        } else {
+            article.setArticleSummary(summary);
+        }
+        return article;
+    }
 
 }

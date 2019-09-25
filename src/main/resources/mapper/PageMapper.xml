@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sen.blog.dao.PageDao">
+    <cache type="org.mybatis.caches.ehcache.EhcacheCache"/>
+
+    <sql id="pageColumns">
+        a.page_id AS pageId,
+        a.page_key AS pageKey,
+        a.page_title AS pageTitle,
+        a.page_content AS pageContent,
+        a.page_create_time AS pageCreateTime ,
+        a.page_update_time AS pageUpdateTime,
+        a.page_view_count AS pageViewCount,
+        a.page_comment_count AS pageCommentCount,
+        a.page_status AS pageStatus
+    </sql>
+
+    <select id="selectAll" resultType="Page">
+        SELECT
+        <include refid="pageColumns"/>
+        FROM page a
+    </select>
+    <select id="selectById" resultType="Page">
+        SELECT
+        <include refid="pageColumns"/>
+        FROM page a
+        WHERE  a.page_id = #{pageId}
+    </select>
+
+    <update id="update" flushCache="true">
+        UPDATE page
+        SET
+        page_key = #{pageKey},
+        page_title = #{pageTitle},
+        page_content = #{pageContent},
+        page_create_time = #{pageCreateTime},
+        page_update_time = #{pageUpdateTime},
+        page_view_count = #{pageViewCount},
+        page_comment_count = #{pageCommentCount},
+        page_status = #{pageStatus}
+        WHERE page_id = #{pageId}
+    </update>
+
+    <delete id="delete" flushCache="true">
+        DELETE FROM
+        page
+        WHERE page_id = #{pageId}
+    </delete>
+
+    <insert id="insert" flushCache="true">
+        INSERT INTO
+        page(
+            page_id,
+            page_key,
+            page_title,
+            page_content,
+            page_create_time,
+            page_update_time,
+            page_view_count,
+            page_comment_count,
+            page_status
+        )
+        VALUES (
+            #{pageId},
+            #{pageKey},
+            #{pageTitle},
+            #{pageContent},
+            #{pageCreateTime},
+            #{pageUpdateTime},
+            #{pageViewCount},
+            #{pageCommentCount},
+            #{pageStatus}
+        )
+    </insert>
+</mapper>

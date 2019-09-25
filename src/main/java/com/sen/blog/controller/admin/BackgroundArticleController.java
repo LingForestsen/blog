@@ -1,21 +1,24 @@
 package com.sen.blog.controller.admin;
 
-import cn.hutool.http.HtmlUtil;
 import com.github.pagehelper.PageInfo;
-import com.sen.blog.common.BeanValidator;
+import com.sen.blog.common.CommonValidatorMethod;
 import com.sen.blog.dto.ArticleDto;
 import com.sen.blog.entity.Article;
+import com.sen.blog.entity.Category;
+import com.sen.blog.entity.Tag;
 import com.sen.blog.entity.User;
 import com.sen.blog.service.ArticleService;
 import com.sen.blog.service.CategoryService;
 import com.sen.blog.service.TagService;
-import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 /**
  * @Auther: Sen
@@ -63,30 +66,93 @@ public class BackgroundArticleController {
      */
     @RequestMapping(value = "/insert", method = RequestMethod.GET)
     public String showInsert(Model model) {
-        model.addAttribute("categoryList", categoryService.listCategory());
-        model.addAttribute("tagList", tagService.listTag());
+        model.addAttribute("categoryList", categoryService.selectAll());
+        model.addAttribute("tagList", tagService.selectAll());
         return "/admin/article/insert";
     }
 
     /**
      * 新增文章
-     * @param articleDto
+     * @param articleDto 文章传输模型
      * @param model
      * @return
      */
     @RequestMapping(value = "/insertSubmit",method = RequestMethod.POST)
-    public String insertArticle(ArticleDto articleDto, Model model) {
-        //验证articleDto是否合法
-        String vaildateMessage = BeanValidator.validator(articleDto);
-        if (vaildateMessage != null) {
-            String cleanMsg = HtmlUtil.cleanHtmlTag(vaildateMessage);
-            model.addAttribute("vaildateMessage", cleanMsg);
-            return "redirect:/admin/article/insert";
+    public String insertArticle(ArticleDto articleDto, Model model, HttpServletResponse response) {
+        User user = CommonValidatorMethod.validateArticle(model, articleDto, "/admin/article/insert", response);
+        if (user == null) {
+            return null;
         }
-        //从shiro获取当前登录的用户
-        User user = (User) SecurityUtils.getSubject().getPrincipal();
-
         articleService.saveArticle(articleDto, user);
+        return "redirect:/admin/article";
+    }
+
+    /**
+     * 保存草稿
+     * @param articleDto
+     * @return
+     */
+    @RequestMapping(value = "/insertDraftSubmit", method = RequestMethod.POST)
+    public String insertDraftSubmit(ArticleDto articleDto,Model model,HttpServletResponse response) {
+        User user = CommonValidatorMethod.validateArticle(model, articleDto, "/admin/article", response);
+        if (user == null) {
+            return null;
+        }
+        articleService.saveArticleDraft(articleDto, user);
+        return "redirect:/admin/article";
+    }
+
+    /**
+     * 跳转编辑文章页面
+     * @param articleId
+     * @param model
+     * @return
+     */
+    @RequestMapping(value = "/edit/{articleId}", method = RequestMethod.GET)
+    public String showEdit(@PathVariable int articleId,Model model) {
+        Article articleParam = new Article();
+        articleParam.setArticleId(articleId);
+
+        //封装article非数据库字段
+        Article article = articleService.selectById(articleParam);
+        List<Category> categories = categoryService.selectByArticleId(article);
+        List<Tag> tags = tagService.selectOneByArticleId(article);
+        article.setCategoryList(categories);
+        article.setTagList(tags);
+
+        List<Category> categoryList = categoryService.selectAll();
+        List<Tag> tagList = tagService.selectAll();
+        model.addAttribute("article", article);
+        model.addAttribute("categoryList", categoryList);
+        model.addAttribute("tagList", tagList);
+
+        return "/admin/article/edit";
+    }
+
+    /**
+     * 保存编辑文章
+     * @param articleDto
+     * @param model
+     * @return
+     */
+    @RequestMapping(value = "/editSubmit", method = RequestMethod.POST)
+    public String editSubmit(ArticleDto articleDto, Model model, HttpServletResponse response) {
+        User user = CommonValidatorMethod.validateArticle(model, articleDto, "/admin/article/edit", response);
+        if (user == null) {
+            return null;
+        }
+        articleService.updateArticle(articleDto,user);
+        return "redirect:/admin/article";
+    }
+
+    /**
+     * 级联删除文章、分类、标签
+     * @param articleId
+     * @return
+     */
+    @RequestMapping(value = "/delete/{articleId}",method = RequestMethod.POST)
+    public String deleteArticle(@PathVariable Integer articleId) {
+        articleService.delete(new Article(articleId));
         return "redirect:/admin/article";
     }
 }

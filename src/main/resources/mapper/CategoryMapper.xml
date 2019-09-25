@@ -13,7 +13,7 @@
         a.category_icon AS categoryIcon
     </sql>
 
-    <select id="listCategory" resultType="Category">
+    <select id="selectAll" resultType="Category">
         SELECT *,COUNT(ref.`article_id`) AS articleCount
         FROM
         category c LEFT JOIN article_category_ref ref
@@ -21,7 +21,55 @@
         GROUP BY c.`category_id`
         ORDER BY c.`category_id`
     </select>
+    <select id="selectByArticleId" resultType="Category">
+        SELECT
+        <include refid="categoryColumns"/>
+        FROM
+        article_category_ref ref
+        JOIN category a
+        ON ref.category_id = a.category_id
+        WHERE ref.article_id=#{articleId}
+    </select>
+    <select id="selectById" resultType="Category">
+        SELECT
+        <include refid="categoryColumns"/>
+        FROM category a
+        WHERE a.category_id = #{categoryId}
 
+    </select>
 
+    <insert id="insert" flushCache="true">
+        INSERT INTO
+        category(
+        category_pid,
+        category_name,
+        category_description,
+        category_order,
+        category_icon
+        )
+        VALUES (
+            #{categoryPid},
+            #{categoryName},
+            #{categoryDescription},
+            #{categoryOrder},
+            #{categoryIcon}
+        )
+    </insert>
+
+    <delete id="delete" flushCache="true">
+        DELETE FROM category
+        WHERE category_id = #{categoryId}
+    </delete>
+
+    <update id="update" flushCache="true">
+        UPDATE category
+        SET
+        category_pid = #{categoryPid},
+        category_name = #{categoryName},
+        category_description = #{categoryDescription},
+        category_order = #{categoryOrder},
+        category_icon = #{categoryIcon}
+        WHERE category_id = #{categoryId}
+    </update>
 
 </mapper>

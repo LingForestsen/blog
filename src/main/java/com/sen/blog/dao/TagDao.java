@@ -1,7 +1,8 @@
 package com.sen.blog.dao;
 
+import com.sen.blog.common.BaseDao;
+import com.sen.blog.entity.Article;
 import com.sen.blog.entity.Tag;
-
 import java.util.List;
 
 /**
@@ -9,10 +10,12 @@ import java.util.List;
  * @Date: 2019/9/24 01:47
  * @Description:
  */
-public interface TagDao {
+public interface TagDao extends BaseDao<Tag> {
+
     /**
-     * 查询所有标签并返回对应的文章总数
+     * 通过文章id关联查询对应的标签
+     * @param article
      * @return
      */
-    List<Tag> listTag();
+    List<Tag> selectOneByArticleId(Article article);
 }

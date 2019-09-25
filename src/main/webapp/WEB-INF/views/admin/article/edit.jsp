@@ -45,7 +45,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label">分类 <span style="color: #FF5722; ">*</span></label>
             <div class="layui-input-inline">
-                <select name="articleParentCategoryId" id="articleParentCategoryId"
+                <select name="articleCategoryIds" id="articleParentCategoryId"
                         lay-filter="articleParentCategoryId">
                     <option value="">一级分类</option>
                     <c:forEach items="${categoryList}" var="c">
@@ -60,7 +60,7 @@
                 </select>
             </div>
             <div class="layui-input-inline">
-                <select name="articleChildCategoryId" id="articleChildCategoryId" lay-filter="articleChildCategoryId">
+                <select name="articleCategoryIds" id="articleChildCategoryId" lay-filter="articleChildCategoryId">
                     <c:forEach items="${categoryList}" var="c">
                         <c:if test="${c.categoryPid == article.categoryList[0].categoryId}">
                             <option value="${c.categoryId}"
@@ -194,12 +194,17 @@
         });
         //end
 
-
+        $(function () {
+            var msg = "${vaildateMessage}";
+            if (msg != null && msg.length > 0) {
+                alert(msg);
+            }
+        })
     </script>
 
 </rapid:override>
 
 
 <%--此句必须放在最后--%>
-<%@ include file="../Public/framework.jsp" %>
+<%@ include file="../public/framework.jsp" %>
 

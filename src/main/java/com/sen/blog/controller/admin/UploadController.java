@@ -20,7 +20,7 @@ public class UploadController {
     /**
      * 文件存放的真实路径
      */
-    private final String realPath = "F:\\codeHub\\blog\\upload";
+    private final String realPath = "F:\\codeHub\\blog\\uploads";
 
     @RequestMapping(value = "/img")
     public BaseResult uploadImage(MultipartFile file) {
@@ -59,7 +59,7 @@ public class UploadController {
             e.printStackTrace();
         }
         //封装DTO
-        String src = String.format("/upload/%s/%s/%s", calendar.get(Calendar.YEAR), (calendar.get(Calendar.MARCH) + 1), targetFileName);
+        String src = String.format("/uploads/%s/%s/%s", calendar.get(Calendar.YEAR), (calendar.get(Calendar.MARCH) + 1), targetFileName);
         UploadDto dto = new UploadDto();
         dto.setSrc(src);
         dto.setTitle(originalFilename);

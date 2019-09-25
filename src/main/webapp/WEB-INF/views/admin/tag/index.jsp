@@ -121,7 +121,12 @@
 </rapid:override>
 <rapid:override name="footer-script">
     <script>
-
+        $(function () {
+            var msg = "${vaildateMessage}";
+            if (msg != null && msg.length > 0) {
+                alert(msg);
+            }
+        })
     </script>
 </rapid:override>
 

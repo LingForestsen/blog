@@ -15,4 +15,16 @@
         #{categoryId}
         )
     </insert>
+
+    <update id="updateArticleCategory" flushCache="true">
+        UPDATE article_category_ref
+        SET
+        category_id = #{categoryId}
+        WHERE article_id = #{articleId}
+    </update>
+
+    <delete id="deleteArticleCategory" flushCache="true">
+        DELETE FROM article_category_ref
+        WHERE article_id = #{articleId}
+    </delete>
 </mapper>
