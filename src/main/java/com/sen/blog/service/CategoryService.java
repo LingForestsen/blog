@@ -1,9 +1,8 @@
 package com.sen.blog.service;
 
-import com.sen.blog.common.BaseServie;
+import com.sen.blog.common.BaseService;
 import com.sen.blog.entity.Article;
 import com.sen.blog.entity.Category;
-
 import java.util.List;
 
 /**
@@ -11,7 +10,7 @@ import java.util.List;
  * @Date: 2019/9/24 01:37
  * @Description:
  */
-public interface CategoryService extends BaseServie<Category> {
+public interface CategoryService extends BaseService<Category> {
 
     /**
      * 通过文章id查询所有类目

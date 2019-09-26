@@ -51,11 +51,11 @@
         <ul class="layui-nav layui-layout-right">
             <li class="layui-nav-item">
                 <a href="javascript:;">
-                    <img src="<shiro:principal property="avatar"/>" class="layui-nav-img">
+                    <img src="<shiro:principal property="userAvatar"/>" class="layui-nav-img">
                     ${sessionScope.user.userName}
                 </a>
                 <dl class="layui-nav-child">
-                    <dd><a href="/admin/user/profile/${sessionScope.user.userId}">基本资料</a></dd>
+                    <dd><a href="/admin/user/profile/<shiro:principal property="userId"/>">基本资料</a></dd>
                 </dl>
             </li>
             <li class="layui-nav-item">

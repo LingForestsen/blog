@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sen.blog.dao.MenuDao">
+
+    <cache type="org.mybatis.caches.ehcache.EhcacheCache"/>
+
+    <sql id="menuColumns">
+        a.menu_id AS menuId,
+        a.menu_name AS menuName,
+        a.menu_url AS menuUrl,
+        a.menu_level AS menuLevel,
+        a.menu_icon AS menuIcon,
+        a.menu_order AS menuOrder
+    </sql>
+
+    <select id="selectAll" resultType="Menu">
+        SELECT
+        <include refid="menuColumns"/>
+        FROM menu a;
+    </select>
+    <select id="selectById" resultType="Menu">
+        SELECT
+        <include refid="menuColumns"/>
+        FROM menu a
+        WHERE a.menu_id = #{menuId}
+    </select>
+
+    <insert id="insert" flushCache="true">
+        INSERT INTO
+        menu(
+            menu_name,
+            menu_url,
+            menu_level,
+            menu_icon,
+            menu_order
+        )
+        VALUES (
+            #{menuName},
+            #{menuUrl},
+            #{menuLevel},
+            #{menuIcon},
+            #{menuOrder}
+        )
+    </insert>
+
+    <update id="update" flushCache="true">
+        UPDATE menu
+        SET
+        menu_name = #{menuName},
+        menu_url = #{menuUrl},
+        menu_level = #{menuLevel},
+        menu_icon = #{menuIcon},
+        menu_order = #{menuOrder}
+        WHERE menu_id = #{menuId}
+    </update>
+
+    <delete id="delete" flushCache="true">
+        DELETE FROM menu
+        WHERE menu_id = #{id}
+    </delete>
+
+</mapper>

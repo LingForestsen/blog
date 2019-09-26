@@ -24,4 +24,10 @@ public interface ArticleDao extends BaseDao<Article> {
      */
     int count();
 
+    /**
+     * 查询没用用户的文章总数
+     * @return
+     */
+    int countByUserId(int userId);
+
 }

@@ -1,19 +1,17 @@
 package com.sen.blog.service;
 
 import com.github.pagehelper.PageInfo;
-import com.sen.blog.common.BaseServie;
+import com.sen.blog.common.BaseService;
 import com.sen.blog.dto.ArticleDto;
 import com.sen.blog.entity.Article;
 import com.sen.blog.entity.User;
-
-import java.util.List;
 
 /**
  * @Auther: Sen
  * @Date: 2019/9/22 19:47
  * @Description:
  */
-public interface ArticleService extends BaseServie<Article> {
+public interface ArticleService extends BaseService<Article> {
 
     /**
      * 查询所有的文章和对用的分类名称

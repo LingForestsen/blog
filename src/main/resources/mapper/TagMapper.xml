@@ -56,7 +56,7 @@
     <delete id="delete" flushCache="true">
         DELETE
         FROM tag
-        WHERE tag_id = #{tagId}
+        WHERE tag_id = #{id}
     </delete>
 
 

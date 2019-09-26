@@ -2,6 +2,8 @@ package com.sen.blog.entity;
 
 import lombok.Data;
 
+import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -10,12 +12,16 @@ import java.util.Date;
  * @Description: 连接
  */
 @Data
-public class Link {
+public class Link implements Serializable {
+
+    private static final long serialVersionUID = -2591649158562162677L;
 
     private int linkId;
 
+    @NotNull(message = "url不能为空")
     private String linkUrl;
 
+    @NotNull(message = "linkName不能为空")
     private String linkName;
 
     private String linkImage;
@@ -23,7 +29,9 @@ public class Link {
     private String linkDescription;
 
     private String linkOwnerNickname;
-
+    /**
+     * 联系方式
+     */
     private String linkOwnerContact;
 
     private Date linkUpdateTime;
@@ -35,4 +43,11 @@ public class Link {
      * 1 显示，非1 隐藏
      */
     private int linkStatus;
+
+    public Link() {
+    }
+
+    public Link(int linkId) {
+        this.linkId = linkId;
+    }
 }

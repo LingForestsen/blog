@@ -2,6 +2,7 @@ package com.sen.blog.service.impl;
 
 import cn.hutool.http.HtmlUtil;
 import com.github.pagehelper.PageInfo;
+import com.sen.blog.common.BaseServiceImpl;
 import com.sen.blog.dao.ArticleCategoryRefDao;
 import com.sen.blog.dao.ArticleDao;
 import com.sen.blog.dao.ArticleTagRefDao;
@@ -22,7 +23,7 @@ import java.util.List;
  */
 @Service
 @Transactional(readOnly = true)
-public class ArticleServiceImpl implements ArticleService {
+public class ArticleServiceImpl extends BaseServiceImpl<Article, ArticleDao> implements ArticleService {
     @Autowired
     private ArticleDao articleDao;
 
@@ -31,11 +32,6 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Autowired
     private ArticleTagRefDao articleTagRefDao;
-
-    @Override
-    public List<Article> selectAll() {
-        return articleDao.selectAll();
-    }
 
     @Override
     public PageInfo<Article> listArticleAndCategory(int pageIndex, int pageSize) {
@@ -96,28 +92,6 @@ public class ArticleServiceImpl implements ArticleService {
         articleDao.insert(article);
     }
 
-    @Override
-    public Article selectById(Article article) {
-        return articleDao.selectById(article);
-    }
-
-    /**
-     * BaseService空实现 start
-     * @param article
-     */
-    @Override
-    public void update(Article article) {
-
-    }
-    /**
-     * BaseService空实现 end
-     * @param article
-     */
-    @Override
-    public void insert(Article article) {
-
-    }
-
     @Transactional(readOnly = false)
     @Override
     public void updateArticle(ArticleDto articleDto, User user) {
@@ -147,10 +121,12 @@ public class ArticleServiceImpl implements ArticleService {
             }
         }
     }
+
     @Transactional(readOnly = false)
     @Override
-    public void delete(Article article) {
-        articleDao.delete(article);
+    public void delete(int id) {
+        articleDao.delete(id);
+        Article article = new Article(id);
         articleCategoryRefDao.deleteArticleCategory(article.getArticleId());
         articleTagRefDao.deleteArticleTag(article.getArticleId());
     }
@@ -164,7 +140,7 @@ public class ArticleServiceImpl implements ArticleService {
      */
     private Article commonSaveArticle(ArticleDto articleDto, User user) {
         Article article = new Article();
-        article.setArticleUserId(user.getId());
+        article.setArticleUserId(user.getUserId());
         article.setArticleTitle(articleDto.getArticleTitle());
         article.setArticleContent(articleDto.getArticleContent());
         article.setArticleViewCount(1);

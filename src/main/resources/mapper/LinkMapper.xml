@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sen.blog.dao.LinkDao">
+
+    <cache type="org.mybatis.caches.ehcache.EhcacheCache"/>
+
+    <sql id="linkColumns">
+        link_id AS linkId,
+        link_url AS linkUrl,
+        link_name AS linkName,
+        link_image AS linkImage,
+        link_description AS linkDescription,
+        link_owner_nickname AS linkOwnerNickname,
+        link_owner_contact AS linkOwnerContact,
+        link_update_time AS linkUpdateTime,
+        link_create_time AS linkCreateTime,
+        link_order AS linkOrder,
+        link_status AS linkStatus
+    </sql>
+    <select id="selectAll" resultType="Link">
+        SELECT
+        <include refid="linkColumns"/>
+        FROM
+        link a
+    </select>
+    <select id="selectById" resultType="Link">
+        SELECT
+        <include refid="linkColumns"/>
+        FROM link a
+        WHERE a.link_id = #{linkId};
+    </select>
+
+    <update id="update" flushCache="true">
+        UPDATE link
+        SET
+        link_id = #{linkId},
+        link_url = #{linkUrl},
+        link_name = #{linkName},
+        link_image = #{linkImage},
+        link_description = #{linkDescription},
+        link_owner_nickname = #{linkOwnerNickname},
+        link_owner_contact = #{linkOwnerContact},
+        link_update_time = #{linkUpdateTime},
+        link_order = #{linkOrder},
+        link_status = #{linkStatus}
+        WHERE link_id = #{linkId}
+    </update>
+
+    <insert id="insert" flushCache="true">
+        INSERT INTO
+        link(
+            link_url,
+            link_name,
+            link_image ,
+            link_description,
+            link_owner_nickname,
+            link_owner_contact,
+            link_update_time,
+            link_create_time,
+            link_order,
+            link_status
+        )
+        VALUES (
+            #{linkUrl},
+            #{linkName},
+            #{linkImage},
+            #{linkDescription},
+            #{linkOwnerNickname},
+            #{linkOwnerContact},
+            #{linkUpdateTime},
+            #{linkCreateTime},
+            #{linkOrder},
+            #{linkStatus}
+        )
+    </insert>
+
+    <delete id="delete" flushCache="true">
+        DELETE
+        FROM link
+        WHERE link_id = #{id}
+    </delete>
+</mapper>

@@ -1,9 +1,7 @@
 package com.sen.blog.shiro;
 
-import com.sen.blog.dao.UserDao;
 import com.sen.blog.entity.User;
-import com.sen.blog.utils.IpUtils;
-import org.apache.shiro.SecurityUtils;
+import com.sen.blog.service.UserService;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
@@ -12,10 +10,8 @@ import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
-import org.apache.shiro.subject.Subject;
 import org.apache.shiro.util.ByteSource;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import java.util.Date;
 
 /**
@@ -25,7 +21,7 @@ import java.util.Date;
  */
 public class UserRealm extends AuthorizingRealm {
     @Autowired
-    private UserDao userDao;
+    private UserService userService;
     @Override
     public String getName() {
         return "userRealm";
@@ -39,11 +35,11 @@ public class UserRealm extends AuthorizingRealm {
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
         User user = (User) principals.getPrimaryPrincipal();
-        if (user.getPermission() == null) {
+        if (user.getUserPermission() == null) {
             return null;
         }
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
-        info.addStringPermission(user.getPermission());
+        info.addStringPermission(user.getUserPermission());
         return info;
     }
 
@@ -57,15 +53,15 @@ public class UserRealm extends AuthorizingRealm {
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
         String username = token.getPrincipal().toString();
         String credentials = token.getCredentials().toString();
-        User user = userDao.login(username);
+        User user = userService.login(username);
         if (user != null) {
-            if (user.getPass().equals(credentials)) {
-                user.setLastLoginTime(new Date());
-                userDao.update(user);
+            if (user.getUserPass().equals(credentials)) {
+                user.setUserLastLoginTime(new Date());
+                userService.update(user);
             }
         }
         SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(user
-                ,user.getPass(), ByteSource.Util.bytes(user.getSalt()), getName());
+                ,user.getUserPass(), ByteSource.Util.bytes(user.getUserSalt()), getName());
         return info;
     }
 

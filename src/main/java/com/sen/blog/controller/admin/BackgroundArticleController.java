@@ -152,7 +152,7 @@ public class BackgroundArticleController {
      */
     @RequestMapping(value = "/delete/{articleId}",method = RequestMethod.POST)
     public String deleteArticle(@PathVariable Integer articleId) {
-        articleService.delete(new Article(articleId));
+        articleService.delete(articleId);
         return "redirect:/admin/article";
     }
 }

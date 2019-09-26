@@ -44,7 +44,7 @@
     <delete id="delete" flushCache="true">
         DELETE FROM
         page
-        WHERE page_id = #{pageId}
+        WHERE page_id = #{id}
     </delete>
 
     <insert id="insert" flushCache="true">

@@ -58,6 +58,13 @@
         FROM article AS a
         WHERE a.article_id = #{articleId}
     </select>
+    <select id="countByUserId" resultType="java.lang.Integer">
+        SELECT
+        COUNT(*)
+        FROM article
+        WHERE article_user_id = #{userId}
+        AND article_status = 1;
+    </select>
 
     <insert id="insert" useGeneratedKeys="true" keyProperty="articleId" flushCache="true">
         INSERT INTO
@@ -109,7 +116,7 @@
 
     <delete id="delete" flushCache="true">
         DELETE FROM article
-        WHERE article_id = #{articleId}
+        WHERE article_id = #{id}
     </delete>
 
 </mapper>

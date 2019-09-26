@@ -72,7 +72,7 @@ public class BackgroundPageController extends CommonValidatorMethod<Page> {
      */
     @RequestMapping(value = "/delete/{pageId}")
     public String deletePage(@PathVariable Integer pageId) {
-        pageService.delete(new Page(pageId));
+        pageService.delete(pageId);
         return "redirect:/admin/page";
     }
 

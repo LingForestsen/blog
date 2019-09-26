@@ -85,7 +85,7 @@ public class BackgroundTagController extends CommonValidatorMethod<Tag> {
 
     @RequestMapping(value = "/delete/{tagId}")
     public String deleteTag(@PathVariable Integer tagId) {
-        tagService.delete(new Tag(tagId));
+        tagService.delete(tagId);
         return "redirect:/admin/tag";
     }
 }

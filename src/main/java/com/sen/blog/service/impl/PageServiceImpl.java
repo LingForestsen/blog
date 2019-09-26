@@ -1,5 +1,6 @@
 package com.sen.blog.service.impl;
 
+import com.sen.blog.common.BaseServiceImpl;
 import com.sen.blog.dao.PageDao;
 import com.sen.blog.entity.Page;
 import com.sen.blog.service.PageService;
@@ -7,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.Date;
-import java.util.List;
 
 /**
  * @Auther: Sen
@@ -16,20 +16,10 @@ import java.util.List;
  */
 @Service
 @Transactional(readOnly = true)
-public class PageServiceImpl implements PageService {
+public class PageServiceImpl extends BaseServiceImpl<Page, PageDao> implements PageService {
 
     @Autowired
     private PageDao pageDao;
-
-    @Override
-    public List<Page> selectAll() {
-        return pageDao.selectAll();
-    }
-
-    @Override
-    public Page selectById(Page page) {
-        return pageDao.selectById(page);
-    }
 
     @Transactional
     @Override
@@ -50,9 +40,4 @@ public class PageServiceImpl implements PageService {
         pageDao.insert(page);
     }
 
-    @Transactional
-    @Override
-    public void delete(Page page) {
-        pageDao.delete(page);
-    }
 }

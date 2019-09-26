@@ -1,5 +1,8 @@
 package com.sen.blog.service.impl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.sen.blog.common.BaseServiceImpl;
 import com.sen.blog.dao.CommentDao;
 import com.sen.blog.entity.Comment;
 import com.sen.blog.service.CommentService;
@@ -14,11 +17,21 @@ import java.util.List;
  * @Description:
  */
 @Service
-public class CommentServiceImpl implements CommentService {
+public class CommentServiceImpl extends BaseServiceImpl<Comment, CommentDao> implements CommentService {
+
     @Autowired
     private CommentDao commentDao;
+
     @Override
     public List<Comment> listComment() {
         return commentDao.listRecentComment();
     }
+
+    @Override
+    public PageInfo<Comment> selectAllByPage(int pageIndex, int pageSize) {
+        PageHelper.startPage(pageIndex, pageSize);
+        List<Comment> comments = commentDao.selectAll();
+        return new PageInfo<>(comments);
+    }
+
 }

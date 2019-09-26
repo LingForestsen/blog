@@ -55,7 +55,7 @@ public class BackgroundCategoryController extends CommonValidatorMethod<Category
 
     @RequestMapping(value = "/delete/{categoryId}")
     public String deleteCategory(@PathVariable Integer categoryId) {
-        categoryService.delete(new Category(categoryId));
+        categoryService.delete(categoryId);
         return "redirect:/admin/category";
     }
 

@@ -1,11 +1,8 @@
 package com.sen.blog.dao;
 
 import com.sen.blog.common.BaseDao;
-import com.sen.blog.common.BaseServie;
 import com.sen.blog.entity.Article;
 import com.sen.blog.entity.Category;
-import org.apache.ibatis.annotations.Param;
-
 import java.util.List;
 
 /**

@@ -46,7 +46,6 @@
                     <div class="layui-input-block">
                         <strong>编辑链接</strong>
                     </div>
-                    <input type="hidden" name="linkId" value="">
                     <div class="layui-input-block">
                         名称 <span style="color: #FF5722; ">*</span>
                         <input type="text" name="linkName" value="" autocomplete="off" class="layui-input" required>
@@ -70,7 +69,7 @@
                     <br>
                     <div class="layui-input-block">
                          Order
-                        <input type="number" name="linkOrder" value="" autocomplete="off" class="layui-input" min="0" max="10">
+                        <input type="number" name="linkOrder" value="1" autocomplete="off" class="layui-input" min="0" max="10" required>
                     </div>
                     <br>
                     <div class="layui-input-block">
@@ -139,7 +138,12 @@
 </rapid:override>
 <rapid:override name="footer-script">
     <script>
-
+        $(function () {
+            var msg = "${vaildateMessage}";
+            if (msg != null && msg.length > 0) {
+                alert(msg);
+            }
+        })
     </script>
 </rapid:override>
 

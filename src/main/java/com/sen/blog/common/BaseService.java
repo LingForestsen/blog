@@ -6,7 +6,7 @@ import java.util.List;
  * @Date: 2019/9/26 00:34
  * @Description: 通用service
  */
-public interface BaseServie<T> {
+public interface BaseService<T> {
     /**
      * 查询所有
      * @return
@@ -33,7 +33,7 @@ public interface BaseServie<T> {
 
     /**
      * 删除
-     * @param t
+     * @param id
      */
-    void delete(T t);
+    void delete(int id);
 }

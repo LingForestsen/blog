@@ -26,6 +26,69 @@
         ON a.comment_article_id = b.article_id
         WHERE a.comment_role=0 ORDER BY a.comment_id DESC limit 5;
     </select>
+    <select id="selectAll" resultType="Comment">
+        SELECT
+        <include refid="commentColumns"/>
+        ,b.article_title AS "article.articleTitle"
+        FROM comment AS a
+        LEFT JOIN article b
+        ON a.comment_article_id = b.article_id
+        ORDER BY a.comment_id DESC
+    </select>
+    <select id="selectById" resultType="Comment">
+        SELECT
+        <include refid="commentColumns"/>
+        FROM comment a
+        WHERE a.comment_id = #{commentId}
+    </select>
+
+    <insert id="insert" flushCache="true">
+        INSERT INTO
+        comment(
+            comment_pid,
+            comment_pname,
+            comment_article_id,
+            comment_author_name,
+            comment_author_email,
+            comment_author_url,
+            comment_author_avatar,
+            comment_content,
+            comment_agent,
+            comment_ip,
+            comment_create_time,
+            comment_role
+        )
+        VALUES (
+            #{commentPid},
+            #{commentPname},
+            #{commentArticleId},
+            #{commentAuthorName},
+            #{commentAuthorEmail},
+            #{commentAuthorUrl},
+            #{commentAuthorAvatar},
+            #{commentContent},
+            #{commentAgent},
+            #{commentIp},
+            #{commentCreateTime},
+            #{commentRole}
+        )
+    </insert>
+
+    <update id="update" flushCache="true">
+        UPDATE comment
+        SET
+        comment_author_name = #{commentAuthorName},
+        comment_author_email = #{commentAuthorEmail},
+        comment_author_url = #{commentAuthorUrl},
+        comment_content = #{commentContent},
+        comment_role = #{commentRole}
+        WHERE comment_id = #{commentId};
+    </update>
+
+    <delete id="delete" flushCache="true">
+        DELETE FROM comment
+        WHERE comment_id = #{id}
+    </delete>
 
 
 </mapper>

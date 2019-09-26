@@ -16,6 +16,9 @@ public class Comment implements Serializable {
 
     private int commentId;
 
+    /**
+     * 父评论id
+     */
     private int commentPid;
 
     private String commentPname;
@@ -46,4 +49,10 @@ public class Comment implements Serializable {
      */
     private Article article;
 
+    public Comment() {
+    }
+
+    public Comment(int commentId) {
+        this.commentId = commentId;
+    }
 }

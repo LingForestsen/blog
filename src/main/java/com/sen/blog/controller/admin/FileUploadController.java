@@ -16,7 +16,7 @@ import java.util.*;
  */
 @RestController
 @RequestMapping(value = "/admin/upload")
-public class UploadController {
+public class FileUploadController {
     /**
      * 文件存放的真实路径
      */

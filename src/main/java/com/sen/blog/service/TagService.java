@@ -1,10 +1,8 @@
 package com.sen.blog.service;
 
-import com.sen.blog.common.BaseServie;
+import com.sen.blog.common.BaseService;
 import com.sen.blog.entity.Article;
 import com.sen.blog.entity.Tag;
-import org.apache.ibatis.annotations.Param;
-
 import java.util.List;
 
 /**
@@ -12,7 +10,7 @@ import java.util.List;
  * @Date: 2019/9/24 02:02
  * @Description:
  */
-public interface TagService extends BaseServie<Tag> {
+public interface TagService extends BaseService<Tag> {
 
     /**
      * 通过文章id关联查询对应的标签

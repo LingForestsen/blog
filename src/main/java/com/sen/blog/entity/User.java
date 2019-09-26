@@ -1,7 +1,10 @@
 package com.sen.blog.entity;
 
 import lombok.Data;
+import org.hibernate.validator.constraints.Length;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -14,37 +17,53 @@ import java.util.Date;
 public class User implements Serializable {
     private static final long serialVersionUID = 5322586187380510636L;
 
-    private int id;
+    private int userId;
 
-    private String name;
+    @Length(min = 4,max = 12,message = "用户名长度为4-12")
+    private String userName;
 
-    private String pass;
+    @NotNull
+    private String userPass;
 
-    private String nickName;
+    @NotNull
+    private String userNickname;
 
-    private String email;
+    @Pattern(regexp = "\\w+(\\.\\w)*@\\w+(\\.\\w{2,3}){1,3}",message = "邮箱格式不正确")
+    private String userEmail;
 
-    private String url;
+    @Pattern(regexp = "(https?|ftp|file)://[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]",
+            message = "url格式有误")
+    private String userUrl;
 
-    private String avatar;
+    private String userAvatar;
 
-    private String lastLoginIp;
+    private String userLastLoginIp;
 
-    private Date registerTime;
+    private Date userRegisterTime;
 
-    private Date lastLoginTime;
-
+    private Date userLastLoginTime;
     /**
      * 1为正常 ，0 为异常
      */
-    private int status;
+    private int userStatus;
+
     /**
      * 盐值
      */
-    private String salt;
+    private String userSalt;
     /**
      * 权限
      */
-    private String permission;
+    private String userPermission;
+    /**
+     * 文章总数（非数据库字段）
+     */
+    private int articleCount;
 
+    public User() {
+    }
+
+    public User(int userId) {
+        this.userId = userId;
+    }
 }

@@ -3,19 +3,19 @@
 <mapper namespace="com.sen.blog.dao.UserDao">
     <cache type="org.mybatis.caches.ehcache.EhcacheCache"/>
     <sql id="UserColumns">
-        a.user_id AS id,
-        a.user_name AS name,
-        a.user_pass AS pass,
-        a.user_nickname AS nickName,
-        a.user_email AS email,
-        a.user_url AS url,
-        a.user_avatar AS avatar,
-        a.user_last_login_ip AS lastLoginIp,
-        a.user_register_time AS registerTime,
-        a.user_last_login_time AS lastLoginTime,
-        a.user_status AS status,
-        a.user_salt AS salt,
-        a.user_permission AS permission
+        a.user_id AS userId,
+        a.user_name AS userName,
+        a.user_pass AS userPass,
+        a.user_nickname AS userNickname,
+        a.user_email AS userEmail,
+        a.user_url AS userUrl,
+        a.user_avatar AS userAvatar,
+        a.user_last_login_ip AS userLastLoginIp,
+        a.user_register_time AS userRegisterTime,
+        a.user_last_login_time AS userLastLoginTime,
+        a.user_status AS userStatus,
+        a.user_salt AS userSalt,
+        a.user_permission AS userPermission
     </sql>
 
     <select id="login" resultType="User">
@@ -26,6 +26,76 @@
         WHERE
         a.user_name = #{name}
     </select>
+    <select id="selectByEmail" resultType="User">
+        SELECT
+        <include refid="UserColumns"/>
+        FROM
+        user AS a
+        WHERE a.user_email = #{userEmail}
+    </select>
+    <select id="selectAll" resultType="User">
+        SELECT
+        <include refid="UserColumns"/>
+        FROM
+        user AS a
+    </select>
+    <select id="selectById" resultType="User">
+        SELECT
+        <include refid="UserColumns"/>
+        FROM user a
+        WHERE a.user_id = #{userId};
+    </select>
+
+    <update id="update" flushCache="true">
+        UPDATE user
+        SET
+        user_name = #{userName},
+        user_pass = #{userPass},
+        user_nickname = #{userNickname},
+        user_email = #{userEmail},
+        user_url = #{userUrl},
+        user_avatar = #{userAvatar},
+        user_status = #{userStatus}
+        WHERE user_id = #{userId};
+    </update>
+
+    <delete id="delete" flushCache="true">
+        DELETE
+        FROM user
+        WHERE user_id = #{userId};
+    </delete>
+
+    <insert id="insert" flushCache="true">
+        INSERT INTO
+        user(
+            user_name,
+            user_pass,
+            user_nickname,
+            user_email,
+            user_url,
+            user_avatar,
+            user_last_login_ip,
+            user_register_time,
+            user_last_login_time,
+            user_status,
+            user_salt,
+            user_permission
+        )
+        VALUES (
+            #{userName},
+            #{userPass},
+            #{userNickname},
+            #{userEmail},
+            #{userUrl},
+            #{userAvatar},
+            #{userLastLoginIp},
+            #{userRegisterTime},
+            #{userLastLoginTime},
+            #{userStatus},
+            #{userSalt},
+            #{userPermission}
+        )
+    </insert>
 
 
 </mapper>

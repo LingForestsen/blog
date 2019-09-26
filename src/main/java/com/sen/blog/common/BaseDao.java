@@ -35,7 +35,7 @@ public interface BaseDao<T> {
 
     /**
      * 删除
-     * @param t
+     * @param id
      */
-    void delete(T t);
+    void delete(int id);
 }

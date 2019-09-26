@@ -137,7 +137,7 @@ function checkUserName() {
         type: "POST",
         url: '/admin/user/checkUserName',
         contentType: "application/x-www-form-urlencoded; charset=utf-8",
-        data: {"username": $("#userName").val(), "id": $("#userId").val()},
+        data: {"userName": $("#userName").val(), "userId": $("#userId").val()},
         dataType: "json",
         success: function (data) {
             //用户名存在
@@ -166,7 +166,7 @@ function checkUserEmail() {
         type: "POST",
         url: '/admin/user/checkUserEmail',
         contentType: "application/x-www-form-urlencoded; charset=utf-8",
-        data: {"email": $("#userEmail").val(), "id": $("#userId").val()},
+        data: {"userEmail": $("#userEmail").val(), "id": $("#userId").val()},
         dataType: "json",
         success: function (data) {
             //用户名存在

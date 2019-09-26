@@ -1,5 +1,6 @@
 package com.sen.blog.dao;
 
+import com.sen.blog.common.BaseDao;
 import com.sen.blog.entity.User;
 
 /**
@@ -7,7 +8,7 @@ import com.sen.blog.entity.User;
  * @Date: 2019/9/20 18:57
  * @Description:
  */
-public interface UserDao {
+public interface UserDao extends BaseDao<User> {
     /**
      * 用户登录
      * @param name 用户名
@@ -15,9 +16,6 @@ public interface UserDao {
      */
     User login(String name);
 
-    /**
-     * 修改用户信息
-     * @param user
-     */
-    void update(User user);
+    User selectByEmail(User user);
+
 }

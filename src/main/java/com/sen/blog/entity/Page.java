@@ -4,6 +4,7 @@ import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.Pattern;
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -12,7 +13,8 @@ import java.util.Date;
  * @Description: 页面实体类
  */
 @Data
-public class Page {
+public class Page implements Serializable {
+    private static final long serialVersionUID = 3109121387799744452L;
     private int pageId;
     /**
      * 别名

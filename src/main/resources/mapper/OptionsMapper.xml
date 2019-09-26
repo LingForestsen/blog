@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sen.blog.dao.OptionsDao">
+
+    <cache type="org.mybatis.caches.ehcache.EhcacheCache"/>
+
+    <sql id="optionsColumns">
+        a.option_id AS optionId,
+        a.option_site_title AS optionSiteTitle,
+        a.option_site_descrption AS optionSiteDescrption,
+        a.option_meta_descrption AS optionMetaDescrption,
+        a.option_meta_keyword AS optionMetaKeyword,
+        a.option_aboutsite_avatar AS optionAboutsiteAvatar,
+        a.option_aboutsite_title AS optionAboutsiteTitle,
+        a.option_aboutsite_content AS optionAboutsiteContent,
+        a.option_aboutsite_wechat AS optionAboutsiteWechat,
+        a.option_aboutsite_qq AS optionAboutsiteQq,
+        a.option_aboutsite_github AS optionAboutsiteGithub,
+        a.option_aboutsite_weibo AS optionAboutsiteWeibo,
+        a.option_tongji AS optionTongji,
+        a.option_status AS optionStatus
+    </sql>
+
+    <select id="selectAll" resultType="Options">
+        SELECT
+        <include refid="optionsColumns"/>
+        FROM options AS a;
+    </select>
+
+    <update id="update" flushCache="true">
+        UPDATE options
+        SET
+        option_site_title = #{optionSiteTitle},
+        option_site_descrption = #{optionSiteDescrption},
+        option_meta_descrption = #{optionMetaDescrption},
+        option_meta_keyword = #{optionMetaKeyword},
+        option_aboutsite_avatar = #{optionAboutsiteAvatar},
+        option_aboutsite_title = #{optionAboutsiteTitle},
+        option_aboutsite_content = #{optionAboutsiteContent},
+        option_aboutsite_wechat = #{optionAboutsiteWechat},
+        option_aboutsite_qq = #{optionAboutsiteQq},
+        option_aboutsite_github = #{optionAboutsiteGithub},
+        option_aboutsite_weibo = #{optionAboutsiteWeibo},
+        option_tongji = #{optionTongji},
+        option_status = #{optionStatus}
+        WHERE option_id = #{optionId};
+    </update>
+
+</mapper>

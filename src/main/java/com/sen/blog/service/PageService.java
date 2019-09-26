@@ -1,6 +1,6 @@
 package com.sen.blog.service;
 
-import com.sen.blog.common.BaseServie;
+import com.sen.blog.common.BaseService;
 import com.sen.blog.entity.Page;
 
 /**
@@ -8,6 +8,6 @@ import com.sen.blog.entity.Page;
  * @Date: 2019/9/25 22:59
  * @Description:
  */
-public interface PageService extends BaseServie<Page> {
+public interface PageService extends BaseService<Page> {
 
 }
