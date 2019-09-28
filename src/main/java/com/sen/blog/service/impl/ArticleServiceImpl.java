@@ -3,13 +3,14 @@ package com.sen.blog.service.impl;
 import cn.hutool.http.HtmlUtil;
 import com.github.pagehelper.PageInfo;
 import com.sen.blog.common.BaseServiceImpl;
-import com.sen.blog.dao.ArticleCategoryRefDao;
-import com.sen.blog.dao.ArticleDao;
-import com.sen.blog.dao.ArticleTagRefDao;
+import com.sen.blog.dao.*;
 import com.sen.blog.dto.ArticleDto;
 import com.sen.blog.entity.Article;
+import com.sen.blog.entity.Category;
+import com.sen.blog.entity.Tag;
 import com.sen.blog.entity.User;
 import com.sen.blog.service.ArticleService;
+import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,6 +33,12 @@ public class ArticleServiceImpl extends BaseServiceImpl<Article, ArticleDao> imp
 
     @Autowired
     private ArticleTagRefDao articleTagRefDao;
+
+    @Autowired
+    private CategoryDao categoryDao;
+
+    @Autowired
+    private TagDao tagDao;
 
     @Override
     public PageInfo<Article> listArticleAndCategory(int pageIndex, int pageSize) {
@@ -122,6 +129,51 @@ public class ArticleServiceImpl extends BaseServiceImpl<Article, ArticleDao> imp
         }
     }
 
+    @Override
+    public int sumView() {
+        return articleDao.sumView();
+    }
+
+    @Override
+    public int sumComment() {
+        return articleDao.sumComment();
+    }
+
+    @Override
+    public int countArticle() {
+        return articleDao.countArticle();
+    }
+
+    @Override
+    public List<Article> listByCategoryIds(List<Integer> categoryIds) {
+        return articleDao.listByCategoryIds(categoryIds);
+    }
+
+    @Override
+    public List<Article> listMostViewCountArticle(int pageSize) {
+        return articleDao.listMostViewCountArticle(pageSize);
+    }
+
+    @Override
+    public Article selectAfterArticle(int ArticleId) {
+        return articleDao.selectAfterArticle(ArticleId);
+    }
+
+    @Override
+    public Article selectBeforeArticle(int ArticleId) {
+        return articleDao.selectBeforeArticle(ArticleId);
+    }
+
+    @Override
+    public List<Article> listRandArticle(int pageSize) {
+        return articleDao.listRandArticle(pageSize);
+    }
+
+    @Override
+    public List<Article> listMostCommentArticle(int pageSize) {
+        return articleDao.listMostCommentArticle(10);
+    }
+
     @Transactional(readOnly = false)
     @Override
     public void delete(int id) {
@@ -162,4 +214,17 @@ public class ArticleServiceImpl extends BaseServiceImpl<Article, ArticleDao> imp
         return article;
     }
 
+    @Override
+    public Article selectById(Article article) {
+        Article tempArticle = articleDao.selectById(article);
+        if (article != null) {
+            List<Category> categories = categoryDao.selectByArticleId(article);
+            List<Tag> tags = tagDao.selectOneByArticleId(article);
+            User user = (User) SecurityUtils.getSubject().getPrincipal();
+            tempArticle.setUser(user);
+            tempArticle.setCategoryList(categories);
+            tempArticle.setTagList(tags);
+        }
+        return tempArticle;
+    }
 }

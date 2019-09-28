@@ -32,6 +32,10 @@
         FROM tag t
         WHERE t.tag_id = #{tagId}
     </select>
+    <select id="count" resultType="java.lang.Integer">
+        SELECT COUNT(tag_id) FROM tag
+    </select>
+
 
     <update id="update" flushCache="true">
         UPDATE tag

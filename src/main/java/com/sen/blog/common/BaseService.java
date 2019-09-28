@@ -36,4 +36,10 @@ public interface BaseService<T> {
      * @param id
      */
     void delete(int id);
+
+    /**
+     * 查询文章总数
+     * @return
+     */
+    int count();
 }

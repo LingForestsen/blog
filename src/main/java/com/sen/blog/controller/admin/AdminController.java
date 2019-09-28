@@ -14,7 +14,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-
 import javax.servlet.http.HttpServletRequest;
 
 /**
@@ -29,17 +28,7 @@ public class AdminController {
 
     @Autowired
     private CommentService commentService;
-    /**
-     * 跳转后台管理页面
-     *
-     * @return
-     */
-    @RequestMapping(value = {"/","/admin"})
-    public String toBackgroud(Model model) {
-        model.addAttribute("articleList", articleService.selectAll());
-        model.addAttribute("commentList", commentService.listComment());
-        return "/admin/index";
-    }
+
     /**
      * 跳转登录页
      * @return
@@ -50,16 +39,16 @@ public class AdminController {
     }
 
     /**
-     * 跳转首页
+     * 跳转后台首页
      * @return
      */
     @RequiresPermissions("admin:list")
-    @RequestMapping(value = {"/index"},method = RequestMethod.GET)
-    public String index(Model model) {
-        Subject subject = SecurityUtils.getSubject();
-        User user = (User) subject.getPrincipal();
-        model.addAttribute("user", user);
-        return "index";
+    @RequestMapping(value = {"/admin"},method = RequestMethod.GET)
+    public String showBackgroundIndex(Model model) {
+        model.addAttribute("articleList", articleService.selectAll());
+        model.addAttribute("commentList", commentService.listRecentComment(0,5));
+
+        return "/admin/index";
     }
     /**
      * 登录

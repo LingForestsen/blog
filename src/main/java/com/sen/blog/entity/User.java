@@ -1,5 +1,6 @@
 package com.sen.blog.entity;
 
+import com.sen.blog.constant.Regx;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
@@ -28,11 +29,10 @@ public class User implements Serializable {
     @NotNull
     private String userNickname;
 
-    @Pattern(regexp = "\\w+(\\.\\w)*@\\w+(\\.\\w{2,3}){1,3}",message = "邮箱格式不正确")
+    @Pattern(regexp = Regx.CHECK_MAIL,message = "邮箱格式不正确")
     private String userEmail;
 
-    @Pattern(regexp = "(https?|ftp|file)://[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]",
-            message = "url格式有误")
+    @Pattern(regexp =Regx.CHECK_URL, message = "url格式有误")
     private String userUrl;
 
     private String userAvatar;

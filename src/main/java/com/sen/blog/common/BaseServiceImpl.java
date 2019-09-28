@@ -41,4 +41,9 @@ public abstract class BaseServiceImpl<T,D extends BaseDao> implements BaseServic
     public void delete(int id) {
         dao.delete(id);
     }
+
+    @Override
+    public int count() {
+        return dao.count();
+    }
 }

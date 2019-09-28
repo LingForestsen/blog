@@ -44,14 +44,21 @@ public class Article implements Serializable {
     private Date articleCreateTime;
 
     private String articleSummary;
+
     /**
      * 文章分类（非数据库字段）
      */
     private List<Category> categoryList;
+
     /**
      * 文章标签（非数据库字段）
      */
     private List<Tag> tagList;
+
+    /**
+     * 发表文章的用户（非数据库字段）
+     */
+    private User user;
 
     public Article() {
     }

@@ -1,7 +1,10 @@
 package com.sen.blog.entity;
 
+import com.sen.blog.constant.Regx;
 import lombok.Data;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -21,12 +24,16 @@ public class Comment implements Serializable {
      */
     private int commentPid;
 
+    /**
+     * 父评论作者
+     */
     private String commentPname;
 
     private int commentArticleId;
-
+    @NotNull(message = "昵称不能为空")
     private String commentAuthorName;
 
+    @Pattern(regexp = Regx.CHECK_MAIL,message = "邮箱格式不正确")
     private String commentAuthorEmail;
 
     private String commentAuthorUrl;

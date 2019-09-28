@@ -4,11 +4,13 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.sen.blog.common.BaseServiceImpl;
 import com.sen.blog.dao.CommentDao;
+import com.sen.blog.entity.Article;
 import com.sen.blog.entity.Comment;
 import com.sen.blog.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -23,8 +25,8 @@ public class CommentServiceImpl extends BaseServiceImpl<Comment, CommentDao> imp
     private CommentDao commentDao;
 
     @Override
-    public List<Comment> listComment() {
-        return commentDao.listRecentComment();
+    public List<Comment> listRecentComment(int pageIndex, int pageSize) {
+        return commentDao.listRecentComment(pageIndex,pageSize);
     }
 
     @Override
@@ -32,6 +34,11 @@ public class CommentServiceImpl extends BaseServiceImpl<Comment, CommentDao> imp
         PageHelper.startPage(pageIndex, pageSize);
         List<Comment> comments = commentDao.selectAll();
         return new PageInfo<>(comments);
+    }
+
+    @Override
+    public List<Comment> selectByArticleId(int articleId) {
+        return commentDao.selectByArticleId(articleId);
     }
 
 }

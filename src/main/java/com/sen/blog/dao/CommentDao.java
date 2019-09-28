@@ -1,7 +1,9 @@
 package com.sen.blog.dao;
 
 import com.sen.blog.common.BaseDao;
+import com.sen.blog.entity.Article;
 import com.sen.blog.entity.Comment;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -14,7 +16,15 @@ public interface CommentDao extends BaseDao<Comment> {
     /**
      * 查询所有评论
      * 通过id逆序得到
+     *
      * @return
      */
-    List<Comment> listRecentComment();
+    List<Comment> listRecentComment(@Param("pageIndex") int pageIndex, @Param("pageSize") int pageSize);
+
+    /**
+     * 查找文章的所有评论
+     * @param articleId
+     * @return
+     */
+    List<Comment> selectByArticleId(int articleId);
 }

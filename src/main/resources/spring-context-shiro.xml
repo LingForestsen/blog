@@ -22,7 +22,7 @@
                 /static/**=anon
                 <!-- 设置cookie免登录的页面 -->
                 /index=user
-                /**=authc
+                /admin/**=authc
             </value>
         </property>
     </bean>

@@ -35,7 +35,9 @@
         <include refid="categoryColumns"/>
         FROM category a
         WHERE a.category_id = #{categoryId}
-
+    </select>
+    <select id="count" resultType="java.lang.Integer">
+        SELECT COUNT(category_id) FROM category
     </select>
 
     <insert id="insert" flushCache="true">

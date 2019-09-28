@@ -8,8 +8,10 @@
         <result column="article_title" property="articleTitle"/>
         <result column="article_create_time" property="articleCreateTime"/>
         <result column="article_status" property="articleStatus"/>
+        <result column="article_summary" property="articleSummary"/>
         <collection property="categoryList" ofType="Category">
             <result column="category_name" property="categoryName"/>
+            <result column="category_id" property="categoryId"/>
         </collection>
     </resultMap>
 
@@ -20,7 +22,7 @@
         a.article_content AS articleContent,
         a.article_view_count AS articleViewCount,
         a.article_comment_count AS articleCommentCount,
-        a.article_like_count AS articleLikCount,
+        a.article_like_count AS articleLikeCount,
         a.article_is_comment AS articleIsComment,
         a.article_status AS articleStatus,
         a.article_order AS articleOrder,
@@ -41,7 +43,9 @@
             ,a.article_status
             ,a.article_create_time
             ,a.article_title
+            ,a.article_summary
             ,IFNULL(c.category_name,"未分类") AS category_name
+            ,c.category_id
             FROM article a
             LEFT JOIN article_category_ref b
             ON a.article_id=b.article_id
@@ -64,6 +68,78 @@
         FROM article
         WHERE article_user_id = #{userId}
         AND article_status = 1;
+    </select>
+    <select id="listByCategoryIds" resultType="Article">
+        SELECT
+        <include refid="articleColumns"/>
+        FROM article a
+        JOIN article_category_ref ref
+        ON a.article_id = ref.article_id
+        WHERE ref.category_id
+        <if test="categoryIds != null">
+            IN
+            <foreach collection="categoryIds" item="categoryId" open="(" close=")" separator=",">
+                #{categoryId}
+            </foreach>
+        </if>
+        limit 5;
+    </select>
+    <select id="listMostViewCountArticle" resultType="Article">
+        SELECT
+        <include refid="articleColumns"/>
+        FROM article a
+        WHERE a.article_status = 1
+        ORDER BY a.article_view_count
+        limit #{pageSize};
+    </select>
+    <select id="selectAfterArticle" resultType="Article">
+        SELECT
+        <include refid="articleColumns"/>
+        FROM article a
+        <![CDATA[WHERE a.article_id > #{articleId} ]]>
+        AND a.article_status = 1
+        ORDER BY a.article_id
+        limit 1;
+    </select>
+    <select id="selectBeforeArticle" resultType="Article">
+        SELECT
+        <include refid="articleColumns"/>
+        FROM article a
+        <![CDATA[WHERE a.article_id < #{articleId} ]]>
+        ORDER BY a.article_id DESC
+        limit 1;
+    </select>
+    <select id="listRandArticle" resultType="Article">
+        SELECT
+        <include refid="articleColumns"/>
+        FROM article a
+        ORDER BY RAND()
+        limit #{pageSize};
+    </select>
+    <select id="sumView" resultType="java.lang.Integer">
+        SELECT
+        SUM(article_view_count)
+        FROM article
+        WHERE article_status = 1
+    </select>
+    <select id="countArticle" resultType="java.lang.Integer">
+        SELECT
+        COUNT(article_id)
+        FROM article
+        WHERE article_status = 1
+    </select>
+    <select id="sumComment" resultType="java.lang.Integer">
+        SELECT
+        SUM(article_comment_count)
+        FROM article
+        WHERE article_status = 1
+    </select>
+    <select id="listMostCommentArticle" resultType="Article">
+        SELECT
+        <include refid="articleColumns"/>
+        FROM article a
+        ORDER BY article_comment_count DESC
+        limit #{pageSize};
     </select>
 
     <insert id="insert" useGeneratedKeys="true" keyProperty="articleId" flushCache="true">

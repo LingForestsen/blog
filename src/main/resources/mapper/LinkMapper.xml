@@ -29,6 +29,10 @@
         FROM link a
         WHERE a.link_id = #{linkId};
     </select>
+    <select id="count" resultType="java.lang.Integer">
+        SELECT COUNT(link_id) FROM link
+    </select>
+
 
     <update id="update" flushCache="true">
         UPDATE link
