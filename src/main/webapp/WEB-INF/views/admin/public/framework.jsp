@@ -10,7 +10,7 @@
 <head>
     <meta charset="utf-8">
     <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
-    <link rel="shortcut icon" href="/static/assets/img/logo.png">
+    <link rel="shortcut icon" href="/static/assets/img/blog_net.png">
     <title>
         ${options.optionSiteTitle}后台
             <rapid:block name="title">
@@ -31,7 +31,7 @@
 <div class="layui-layout layui-layout-admin">
     <div class="layui-header">
         <div class="layui-logo"><a href="/admin" style="color:#009688;">
-        ${options.optionSiteTitle}后台
+            ${options.optionSiteTitle} 后台
         </a>
         </div>
         <!-- 头部区域（可配合layui已有的水平导航） -->
@@ -59,7 +59,7 @@
                 </dl>
             </li>
             <li class="layui-nav-item">
-                <a href="/logout">退了</a>
+                <a href="/logout">注销</a>
             </li>
         </ul>
     </div>

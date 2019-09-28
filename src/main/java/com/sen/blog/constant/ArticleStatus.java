@@ -8,7 +8,7 @@ package com.sen.blog.constant;
 public enum ArticleStatus {
 
     PUBLIS(1,"已发布"),
-    DRAFT(1,"草稿");
+    DRAFT(0,"草稿");
 
     private int value;
     private String desc;

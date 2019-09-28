@@ -40,7 +40,7 @@ public class Link implements Serializable {
 
     private int linkOrder;
     /**
-     * 1 显示，非1 隐藏
+     * 1 显示，0 隐藏
      */
     private int linkStatus;
 

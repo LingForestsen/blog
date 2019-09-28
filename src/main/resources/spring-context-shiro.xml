@@ -7,7 +7,7 @@
     <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
         <!-- 给ShiroFilterFactoryBean配置securityManager -->
         <property name="securityManager" ref="securityManager"/>
-        <!-- 当方位需要认证的资源时，没权限自动跳转到该页面 -->
+        <!-- 当访问需要认证的资源时，没权限自动跳转到该页面 -->
         <property name="loginUrl" value="/login"/>
         <!-- 认证成功后的跳转页面，若不配置默认跳转上一个url -->
         <property name="successUrl" value="/admin"/>
@@ -21,7 +21,7 @@
                 /logout=logout
                 /static/**=anon
                 <!-- 设置cookie免登录的页面 -->
-                /index=user
+                /article/**=user
                 /admin/**=authc
             </value>
         </property>
@@ -74,10 +74,9 @@
     <!-- 配置会话管理器 -->
     <bean id="sessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
         <!-- 单位是毫秒 -->
-        <property name="globalSessionTimeout" value="3000000"/>
+        <property name="globalSessionTimeout" value="3600000"/>
         <!-- 删除无效session -->
         <property name="deleteInvalidSessions" value="true"/>
     </bean>
-
 
 </beans>

@@ -14,7 +14,7 @@ import java.util.List;
  */
 public interface CommentDao extends BaseDao<Comment> {
     /**
-     * 查询所有评论
+     * 查询最近评论
      * 通过id逆序得到
      *
      * @return
@@ -27,4 +27,11 @@ public interface CommentDao extends BaseDao<Comment> {
      * @return
      */
     List<Comment> selectByArticleId(int articleId);
+
+    /**
+     * 查询文章所有评论
+     * @param articleId
+     * @return
+     */
+    int countByArticleId(@Param("articleId") int articleId);
 }

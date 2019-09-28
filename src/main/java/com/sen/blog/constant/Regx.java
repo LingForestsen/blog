@@ -9,7 +9,8 @@ public class Regx {
     /**
      * 验证邮箱格式
      */
-    public static final String CHECK_MAIL ="\\w+(\\.\\w)*@\\w+(\\.\\w{2,3}){1,3}";
+    public static final String CHECK_MAIL ="^[A-Za-z0-9\\u4e00-\\u9fa5]+@[a-zA-Z0-9_-]+(\\.[a-zA-Z0-9_-]+)+$";
+
     /**
      * 验证URL格式
      */

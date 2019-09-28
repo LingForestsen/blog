@@ -7,6 +7,7 @@ import com.sen.blog.entity.Article;
 import com.sen.blog.entity.User;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -22,7 +23,7 @@ public interface ArticleService extends BaseService<Article> {
      * @param pageSize 每页多少条
      * @return
      */
-    PageInfo<Article> listArticleAndCategory(int pageIndex, int pageSize);
+    PageInfo<Article> listArticleAndCategory(int pageIndex, int pageSize, HashMap<String, Object> criteria);
 
     /**
      * 新增文章
@@ -58,6 +59,7 @@ public interface ArticleService extends BaseService<Article> {
 
     /**
      * 通过分类id查找详细的文章
+     * @param categoryIds
      * @return
      */
     List<Article> listByCategoryIds(List<Integer> categoryIds);
@@ -95,4 +97,31 @@ public interface ArticleService extends BaseService<Article> {
      * @return
      */
     List<Article> listMostCommentArticle(@Param("pageSize") int pageSize);
+
+    /**
+     * 查询总条数
+     * @param criteria 查询条件
+     * @return
+     */
+    int countByCriteria(HashMap<String,Object> criteria);
+
+    /**
+     * 查找一个标签下的所有文章
+     * @param pageIndex 起始页
+     * @param pageSize 页宽
+     * @param tagId 标签id
+     * @return
+     */
+    PageInfo<Article> listArticlesByTagId(int pageIndex,int pageSize,int tagId);
+
+    /**
+     * 查找一个分类下的所有文章
+     *
+     * @param pageIndex  起始页
+     * @param pageSize   页宽
+     * @param categoryId 标签id
+     * @return
+     */
+    PageInfo<Article> listArticlesByCategoryId(int pageIndex, int pageSize, int categoryId);
+
 }

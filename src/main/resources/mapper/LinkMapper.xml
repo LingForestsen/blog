@@ -22,6 +22,7 @@
         <include refid="linkColumns"/>
         FROM
         link a
+        WHERE a.link_status = 1
     </select>
     <select id="selectById" resultType="Link">
         SELECT

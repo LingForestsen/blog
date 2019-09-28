@@ -89,4 +89,14 @@ public class BackgroundCategoryController extends CommonValidatorMethod<Category
         categoryService.update(category);
         return "redirect:/admin/category";
     }
+
+    /**
+     * 跳转新增页面
+     * @return
+     */
+    @RequestMapping(value = "/insert", method = RequestMethod.GET)
+    public String showInsert() {
+        System.out.println("hello");
+        return "redirect:/admin/category";
+    }
 }

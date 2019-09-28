@@ -1,6 +1,8 @@
 package com.sen.blog.controller.admin;
 
+import com.sen.blog.entity.Article;
 import com.sen.blog.entity.Comment;
+import com.sen.blog.service.ArticleService;
 import com.sen.blog.service.CommentService;
 import com.sen.blog.utils.IpUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +27,9 @@ public class BackgrundCommentController {
 
     @Autowired
     private CommentService commentService;
+
+    @Autowired
+    private ArticleService articleService;
 
     @RequestMapping(value = "", method = RequestMethod.GET)
     public String showComment(Model model,
@@ -64,7 +69,11 @@ public class BackgrundCommentController {
 
     @RequestMapping(value = "/delete/{commentId}", method = RequestMethod.POST)
     public String deleteComment(@PathVariable int commentId){
+        Comment comment = commentService.selectById(new Comment(commentId));
+        Article article = articleService.selectById(new Article(comment.getCommentArticleId()));
         commentService.delete(commentId);
+        article.setArticleCommentCount(commentService.countByArticleId(article.getArticleId()));
+        articleService.update(article);
         return "redirect:/admin/comment";
     }
 

@@ -1,20 +1,21 @@
 package com.sen.blog.controller.home;
 
+import com.github.pagehelper.PageInfo;
+import com.sen.blog.constant.ArticleStatus;
 import com.sen.blog.entity.Article;
 import com.sen.blog.entity.Category;
 import com.sen.blog.service.ArticleService;
 import com.sen.blog.service.CategoryService;
 import com.sen.blog.service.CommentService;
 import com.sen.blog.service.TagService;
+import com.sen.blog.utils.MapperUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -57,10 +58,6 @@ public class ArticleController {
         model.addAttribute("preArticle", articleService.selectBeforeArticle(articleId));
         //后一页
         model.addAttribute("afterArticle", articleService.selectAfterArticle(articleId));
-        //随机文章
-        model.addAttribute("randomArticleList", articleService.listRandArticle(5));
-        //热评文章
-        model.addAttribute("mostCommentArticleList", articleService.listMostCommentArticle(5));
         return "/home/page/articleDetail";
     }
 
@@ -71,5 +68,42 @@ public class ArticleController {
         article.setArticleLikeCount(article.getArticleLikeCount() + 1);
         articleService.update(article);
         return article.getArticleLikeCount();
+    }
+
+    @RequestMapping(value = "/article/view/{articleId}", method = RequestMethod.POST)
+    @ResponseBody
+    public String addArticleViewCount(@PathVariable int articleId) {
+        Article article = articleService.selectById(new Article(articleId));
+        int viewCount = article.getArticleLikeCount() + 1;
+        article.setArticleLikeCount(viewCount);
+        articleService.update(article);
+        String json = null;
+        try {
+            json = MapperUtils.obj2json(viewCount);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return json;
+    }
+
+    @RequestMapping(value = "/search",method = RequestMethod.GET)
+    public String searchSubmit(String keywords, Model model,
+                               @RequestParam(required = false, defaultValue = "1") int pageIndex,
+                               @RequestParam(required = false, defaultValue = "10") int pageSize) {
+        HashMap<String,Object> criteria = new HashMap<>();
+        criteria.put("status", ArticleStatus.PUBLIS.getValue());
+        criteria.put("keywords", keywords);
+        PageInfo<Article> articlePageInfo = articleService.listArticleAndCategory(pageIndex, pageSize, criteria);
+        model.addAttribute("pageInfo", articlePageInfo);
+        //返回搜索关键字
+        model.addAttribute("keywords", keywords);
+        model.addAttribute("pageUrlPrefix", "/search?pageIndex");
+        return "/home/page/search";
+    }
+
+    @RequestMapping(value = "/articleFile", method = RequestMethod.GET)
+    public String showArticleFile(Model model) {
+        model.addAttribute("articleList", articleService.selectAll());
+        return "/home/page/articleFile";
     }
 }

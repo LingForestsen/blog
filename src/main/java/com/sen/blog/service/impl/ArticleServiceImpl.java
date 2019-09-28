@@ -1,6 +1,7 @@
 package com.sen.blog.service.impl;
 
 import cn.hutool.http.HtmlUtil;
+import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.sen.blog.common.BaseServiceImpl;
 import com.sen.blog.dao.*;
@@ -15,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -41,14 +43,14 @@ public class ArticleServiceImpl extends BaseServiceImpl<Article, ArticleDao> imp
     private TagDao tagDao;
 
     @Override
-    public PageInfo<Article> listArticleAndCategory(int pageIndex, int pageSize) {
-
+    public PageInfo<Article> listArticleAndCategory(int pageIndex, int pageSize, HashMap<String, Object> criteria) {
         //编辑用于分页的起始索引
         int pageStart = pageSize * (pageIndex - 1);
-        List<Article> articles = articleDao.listArticleAndCategory();
+
+        List<Article> articles = articleDao.listArticleAndCategory(criteria);
         //TODO 更好的解决方案
         //查询文章总数（因为使用limit导致分页数据错误）
-        int count = articleDao.count();
+        int count = articleDao.countByCriteria(criteria);
         //总页数
         int pages = (count + pageSize - 1) / pageSize;
 
@@ -172,6 +174,25 @@ public class ArticleServiceImpl extends BaseServiceImpl<Article, ArticleDao> imp
     @Override
     public List<Article> listMostCommentArticle(int pageSize) {
         return articleDao.listMostCommentArticle(10);
+    }
+
+    @Override
+    public int countByCriteria(HashMap<String, Object> criteria) {
+        return articleDao.countByCriteria(criteria);
+    }
+
+    @Override
+    public PageInfo<Article> listArticlesByTagId(int pageIndex,int pageSize,int tagId) {
+        PageHelper.startPage(pageIndex, pageSize);
+        List<Article> articles = articleDao.listArticlesByTagId(tagId);
+        return new PageInfo<>(articles);
+    }
+
+    @Override
+    public PageInfo<Article> listArticlesByCategoryId(int pageIndex, int pageSize, int categoryId) {
+        PageHelper.startPage(pageIndex, pageSize);
+        List<Article> articles = articleDao.listArticlesByCategoryId(categoryId);
+        return new PageInfo<>(articles);
     }
 
     @Transactional(readOnly = false)

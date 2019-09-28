@@ -47,6 +47,12 @@
         FROM comment a
         WHERE a.comment_article_id = #{articleId};
     </select>
+    <select id="countByArticleId" resultType="java.lang.Integer">
+        SELECT
+        count(comment_article_id)
+        FROM comment
+        WHERE comment_article_id = #{articleId};
+    </select>
 
     <insert id="insert" flushCache="true">
         INSERT INTO

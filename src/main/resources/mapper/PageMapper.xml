@@ -26,6 +26,12 @@
         FROM page a
         WHERE  a.page_id = #{pageId}
     </select>
+    <select id="selectByKey" resultType="Page">
+        SELECT
+        <include refid="pageColumns"/>
+        FROM page a
+        WHERE  a.page_key = #{pageKey}
+    </select>
 
     <update id="update" flushCache="true">
         UPDATE page

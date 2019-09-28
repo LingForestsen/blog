@@ -16,7 +16,8 @@
     <select id="selectAll" resultType="Menu">
         SELECT
         <include refid="menuColumns"/>
-        FROM menu a;
+        FROM menu a
+        ORDER BY a.menu_order DESC
     </select>
     <select id="selectById" resultType="Menu">
         SELECT

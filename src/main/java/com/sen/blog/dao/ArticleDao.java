@@ -5,6 +5,7 @@ import com.sen.blog.entity.Article;
 import org.apache.ibatis.annotations.Param;
 import org.checkerframework.checker.units.qual.A;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -19,7 +20,7 @@ public interface ArticleDao extends BaseDao<Article> {
      *
      * @return
      */
-    List<Article> listArticleAndCategory();
+    List<Article> listArticleAndCategory(HashMap<String, Object> criteria);
 
 
     /**
@@ -86,4 +87,24 @@ public interface ArticleDao extends BaseDao<Article> {
      */
     List<Article> listMostCommentArticle(@Param("pageSize") int pageSize);
 
+    /**
+     * 查询总条数
+     * @param criteria 查询条件
+     * @return
+     */
+    int countByCriteria(HashMap<String,Object> criteria);
+
+    /**
+     * 查找一个标签下的所有文章
+     * @param tagId
+     * @return
+     */
+    List<Article> listArticlesByTagId(int tagId);
+
+    /**
+     * 查找一个分类下的所有文章
+     * @param categoryId
+     * @return
+     */
+    List<Article> listArticlesByCategoryId(int categoryId);
 }

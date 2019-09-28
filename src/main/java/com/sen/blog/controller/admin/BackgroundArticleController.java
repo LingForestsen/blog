@@ -52,7 +52,7 @@ public class BackgroundArticleController {
             ,@RequestParam(required = false) String status
             ,@RequestParam(required = false, defaultValue = "10") int pageSize , Model model) {
 
-        PageInfo<Article> articlePageInfo = articleService.listArticleAndCategory(pageIndex, pageSize);
+        PageInfo<Article> articlePageInfo = articleService.listArticleAndCategory(pageIndex, pageSize,null);
         model.addAttribute("pageUrlPrefix", "/admin/article?status=" + status + "&pageIndex");
         model.addAttribute("pageInfo", articlePageInfo);
 

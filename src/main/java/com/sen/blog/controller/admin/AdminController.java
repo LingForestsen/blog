@@ -42,7 +42,6 @@ public class AdminController {
      * 跳转后台首页
      * @return
      */
-    @RequiresPermissions("admin:list")
     @RequestMapping(value = {"/admin"},method = RequestMethod.GET)
     public String showBackgroundIndex(Model model) {
         model.addAttribute("articleList", articleService.selectAll());

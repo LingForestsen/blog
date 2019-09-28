@@ -2,10 +2,7 @@ package com.sen.blog.interception;
 
 import com.sen.blog.entity.Options;
 import com.sen.blog.entity.Tag;
-import com.sen.blog.service.CategoryService;
-import com.sen.blog.service.MenuService;
-import com.sen.blog.service.OptionsService;
-import com.sen.blog.service.TagService;
+import com.sen.blog.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
@@ -32,11 +29,14 @@ public class HomeResourcesInterception implements HandlerInterceptor {
     @Autowired
     private CategoryService categoryService;
 
+    @Autowired
+    private ArticleService articleService;
+
     @Override
     public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o) throws Exception {
         //顶部主菜单
         httpServletRequest.setAttribute("menuList", menuService.selectAll());
-        //面包屑
+        //网站基本信息
         List<Options> options = optionsService.selectAll();
         httpServletRequest.setAttribute("options", options.get(0));
         //顶部分类菜单
@@ -44,6 +44,10 @@ public class HomeResourcesInterception implements HandlerInterceptor {
         //所有标签
         List<Tag> tags = tagService.selectAll();
         httpServletRequest.setAttribute("allTagList", tags);
+        //随机文章
+        httpServletRequest.setAttribute("randomArticleList", articleService.listRandArticle(5));
+        //热评文章
+        httpServletRequest.setAttribute("mostCommentArticleList", articleService.listMostCommentArticle(5));
         return true;
     }
 

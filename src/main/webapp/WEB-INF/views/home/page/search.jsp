@@ -16,7 +16,7 @@
         <a class="crumbs" href="/">
             <i class="fa fa-home"></i>首页</a>
             <i class="fa fa-angle-right"></i>
-        搜索 ${param.keywords} 找到 ${pageInfo.total} 个与之相关的文章
+        搜索 ${keywords} 找到 ${pageInfo.total} 个与之相关的文章
     </nav>
     <%--面包屑导航 end--%>
 </rapid:override>
@@ -37,7 +37,7 @@
                                 <figure class="thumbnail">
                                     <a href="/article/${a.articleId}">
                                         <img width="280" height="210"
-                                             src="/img/thumbnail/random/img_${a.articleId%15}.jpg"
+                                             src="/static/assets/img/thumbnail/random/img_${a.articleId%15}.jpg"
                                              class="attachment-content size-content wp-post-image"
                                              alt="${a.articleTitle}">
                                     </a>

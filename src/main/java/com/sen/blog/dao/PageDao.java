@@ -10,4 +10,10 @@ import com.sen.blog.entity.Page;
  */
 public interface PageDao extends BaseDao<Page> {
 
+    /**
+     * 通过页面key查询
+     * @param key
+     * @return
+     */
+    Page selectByKey(String key);
 }

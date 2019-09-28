@@ -41,4 +41,9 @@ public class CommentServiceImpl extends BaseServiceImpl<Comment, CommentDao> imp
         return commentDao.selectByArticleId(articleId);
     }
 
+    @Override
+    public int countByArticleId(int articleId) {
+        return commentDao.countByArticleId(articleId);
+    }
+
 }

@@ -18,7 +18,7 @@
 </rapid:override>
 
 <rapid:override name="header-style">
-    <link rel="stylesheet" href="/plugin/layui/css/layui.css">
+    <link rel="stylesheet" href="/static/assets/plugin/layui/css/layui.css">
 </rapid:override>
 
 <rapid:override name="breadcrumb">

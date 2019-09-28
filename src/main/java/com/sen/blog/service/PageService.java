@@ -9,5 +9,10 @@ import com.sen.blog.entity.Page;
  * @Description:
  */
 public interface PageService extends BaseService<Page> {
-
+    /**
+     * 通过页面key查询
+     * @param key
+     * @return
+     */
+    Page selectByKey(String key);
 }

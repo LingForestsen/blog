@@ -52,7 +52,7 @@ public class IndexController {
         //顶部通知
         model.addAttribute("noticeList", noticeService.selectAll());
         //左侧文章菜单
-        PageInfo<Article> articlePageInfo = articleService.listArticleAndCategory(pageIndex, pageSize);
+        PageInfo<Article> articlePageInfo = articleService.listArticleAndCategory(pageIndex, pageSize, null);
         model.addAttribute("pageInfo", articlePageInfo);
         model.addAttribute("pageUrlPrefix", "/article?pageIndex");
 

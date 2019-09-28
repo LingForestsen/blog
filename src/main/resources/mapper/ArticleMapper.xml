@@ -9,6 +9,8 @@
         <result column="article_create_time" property="articleCreateTime"/>
         <result column="article_status" property="articleStatus"/>
         <result column="article_summary" property="articleSummary"/>
+        <result column="article_view_count" property="articleViewCount"/>
+        <result column="article_comment_count" property="articleCommentCount"/>
         <collection property="categoryList" ofType="Category">
             <result column="category_name" property="categoryName"/>
             <result column="category_id" property="categoryId"/>
@@ -35,15 +37,17 @@
         SELECT
         <include refid="articleColumns"/>
         FROM article AS a
-        ORDER BY a.article_create_time DESC limit 5;
+        ORDER BY a.article_create_time DESC
     </select>
-    <select id="listArticleAndCategory" resultMap="articleCategory">
+    <select id="listArticleAndCategory" parameterType="java.util.Map" resultMap="articleCategory">
             SELECT
             a.article_id
             ,a.article_status
             ,a.article_create_time
             ,a.article_title
             ,a.article_summary
+            ,a.article_view_count
+            ,a.article_comment_count
             ,IFNULL(c.category_name,"未分类") AS category_name
             ,c.category_id
             FROM article a
@@ -51,10 +55,26 @@
             ON a.article_id=b.article_id
             LEFT JOIN category c
             ON c.category_id=b.category_id
+            <where>
+                <if test="status != null and status != ''">
+                AND a.article_status = #{status}
+                </if>
+                <if test="keywords != null and keywords != ''">
+                AND a.article_title like concat("%",#{keywords},"%")
+                </if>
+            </where>
             ORDER BY a.article_create_time DESC, c.category_id
     </select>
-    <select id="count" resultType="java.lang.Integer">
-        SELECT COUNT(*) FROM article;
+    <select id="countByCriteria" parameterType="java.util.Map" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM article a
+        <where>
+            <if test="status != null and status != ''">
+                AND a.article_status = #{status}
+            </if>
+            <if test="keywords != null and keywords != ''">
+                AND a.article_title like concat("%",#{keywords},"%")
+            </if>
+        </where>
     </select>
     <select id="selectById" resultType="Article">
         SELECT
@@ -140,6 +160,22 @@
         FROM article a
         ORDER BY article_comment_count DESC
         limit #{pageSize};
+    </select>
+    <select id="listArticlesByTagId" resultType="Article">
+        SELECT
+        <include refid="articleColumns"/>
+        FROM  article a
+        JOIN article_tag_ref ref
+        ON a.article_id = ref.article_id
+        WHERE ref.tag_id = #{tagId}
+    </select>
+    <select id="listArticlesByCategoryId" resultType="Article">
+        SELECT
+        <include refid="articleColumns"/>
+        FROM  article a
+        JOIN article_category_ref ref
+        ON a.article_id = ref.article_id
+        WHERE ref.category_id = #{categoryId}
     </select>
 
     <insert id="insert" useGeneratedKeys="true" keyProperty="articleId" flushCache="true">

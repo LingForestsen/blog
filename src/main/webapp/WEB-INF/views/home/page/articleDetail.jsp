@@ -121,12 +121,12 @@
 
                     <footer class="single-footer">
                         <ul class="single-meta">
-                            <shiro:authenticated>
+                            <shiro:user>
                                 <li class="edit-link">
                                     <a target="_blank" class="post-edit-link"
                                        href="/admin/article/edit/${article.articleId}">编辑</a>
                                 </li>
-                            </shiro:authenticated>
+                            </shiro:user>
                             <li class="comment">
                                 <a href="/article/${article.articleId}#comments"
                                    rel="external nofollow">
@@ -301,7 +301,7 @@
                            style="">取消回复</a>
                     </h3>
                     <form id="comment_form" method="post">
-                        <shiro:authenticated>
+                        <shiro:user>
                             <div class="user_avatar">
 
                                 <img alt="言曌"
@@ -310,14 +310,13 @@
                                 登录者：<shiro:principal property="userName"/>
                                 <br> <a href="javascript:void(0)" onclick="logout()">登出</a>
                                 <input type="hidden" name="commentRole" value="1">
-                                <input type="hidden" name="commentAuthorAvatar" value="<shiro:principal property='userAvatar'/>">
                                 <input type="hidden" name="commentAuthorName"
                                        value="<shiro:principal property='userNickname'/> ">
                                 <input type="hidden" name="commentAuthorEmail"
                                        value="<shiro:principal property="userEmail"/> ">
                                 <input type="hidden" name="commentAuthorUrl" value="<shiro:principal property="userUrl"/> ">
                             </div>
-                        </shiro:authenticated>
+                        </shiro:user>
                         <p class="comment-form-comment">
                             <textarea id="comment" name="commentContent" rows="4" tabindex="1" required></textarea>
                         </p>
@@ -387,13 +386,13 @@
                                                     </span>
                                                     <fmt:formatDate value="${c.commentCreateTime}"
                                                                     pattern="yyyy年MM月dd日 HH:mm:ss"/>&nbsp;
-                                                    <c:if test="${sessionScope.user != null}">
+                                                    <shiro:user>
                                                         <a href="javascript:void(0)"
                                                            onclick="deleteComment(${c.commentId})">删除</a>
                                                         <a class="comment-edit-link"
                                                            href="/admin/comment/edit/${c.commentId}"
                                                            target="_blank">编辑</a>
-                                                    </c:if>
+                                                    </shiro:user>
                                                     <span class="floor"> &nbsp;${floor}楼 </span>
                                                 </span>
                                             </span>
@@ -436,13 +435,13 @@
                                                         </span>
                                                         <fmt:formatDate value="${c2.commentCreateTime}"
                                                                         pattern="yyyy年MM月dd日 HH:mm:ss"/>&nbsp;
-                                                        <c:if test="${sessionScope.user != null}">
+                                                        <shiro:user>
                                                             <a href="javascript:void(0)"
                                                                onclick="deleteComment(${c2.commentId})">删除</a>
                                                             <a class="comment-edit-link"
                                                                href="/admin/comment/edit/${c2.commentId}"
                                                                target="_blank">编辑</a>
-                                                        </c:if>
+                                                        </shiro:user>
                                                         <span class="floor"> &nbsp;${floor2}层 </span>
                                                     </span>
                                                 </span>

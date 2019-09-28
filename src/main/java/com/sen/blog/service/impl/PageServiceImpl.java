@@ -40,4 +40,8 @@ public class PageServiceImpl extends BaseServiceImpl<Page, PageDao> implements P
         pageDao.insert(page);
     }
 
+    @Override
+    public Page selectByKey(String key) {
+        return pageDao.selectByKey(key);
+    }
 }

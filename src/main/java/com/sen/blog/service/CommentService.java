@@ -4,6 +4,8 @@ import com.github.pagehelper.PageInfo;
 import com.sen.blog.common.BaseService;
 import com.sen.blog.entity.Article;
 import com.sen.blog.entity.Comment;
+import org.apache.ibatis.annotations.Param;
+
 import java.util.List;
 
 /**
@@ -27,5 +29,12 @@ public interface CommentService extends BaseService<Comment> {
      * @return
      */
     List<Comment> selectByArticleId(int articleId);
+
+    /**
+     * 查询文章所有评论
+     * @param articleId
+     * @return
+     */
+    int countByArticleId(@Param("articleId") int articleId);
 
 }

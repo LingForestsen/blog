@@ -55,7 +55,10 @@ public class CommonValidatorMethod<T> {
             String cleanMsg = HtmlUtil.cleanHtmlTag(vaildateMessage);
             model.addAttribute("vaildateMessage", cleanMsg);
             try {
-                response.sendRedirect(url);
+                if (response != null) {
+                    response.sendRedirect(url);
+
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }
