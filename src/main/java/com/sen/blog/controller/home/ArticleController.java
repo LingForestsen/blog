@@ -97,7 +97,7 @@ public class ArticleController {
         model.addAttribute("pageInfo", articlePageInfo);
         //返回搜索关键字
         model.addAttribute("keywords", keywords);
-        model.addAttribute("pageUrlPrefix", "/search?pageIndex");
+        model.addAttribute("pageUrlPrefix", "/search?keywords="+keywords+"&&pageIndex");
         return "/home/page/search";
     }
 

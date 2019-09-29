@@ -3,10 +3,9 @@ package com.sen.blog.test;
 import com.sen.blog.service.ArticleService;
 import org.apache.shiro.crypto.hash.Md5Hash;
 import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.util.DigestUtils;
 
 /**
@@ -45,5 +44,11 @@ public class MD5Test {
         //设置图片大小32px
         String avatar = "http://cn.gravatar.com/avatar/" + emailMd5 + "?s=128&d=identicon&r=PG";
         System.out.println(avatar);
+    }
+
+    @Test
+    public void logTest() {
+        final Logger logger = LoggerFactory.getLogger(MD5Test.class);
+        logger.info("hello logger");
     }
 }

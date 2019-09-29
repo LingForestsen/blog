@@ -134,9 +134,9 @@
         </div>
     </div>
 
-    <div class="layui-footer">
+    <div class="layui-footer" align="center">
         <!-- 底部固定区域 -->
-        © <a href="http://blog.liuyanzhao.com">言曌博客</a> 2017  欢迎加入开发者交流群 590480292，博主免费回答大家日常问题。同时博主代做毕设，解决开发问题，详情参看 <a href="https://liuyanzhao.com/bulletin/my-service/" target="_blank">有偿服务</a>
+        © <a href="/article">言曌博客</a> 2019  欢迎加入开发者交流群 590480292 <a href="https://liuyanzhao.com/bulletin/my-service/" target="_blank">原博客主页</a>
     </div>
 </div>
 
@@ -148,7 +148,7 @@
 </rapid:block>
 <script>
     //给文本编辑器的iframe引入代码高亮的css
-    $("iframe").contents().find("head").append("<link rel=\"stylesheet\" href=\"/css/highlight.css\">\n");
+    $("iframe").contents().find("head").append("<link rel=\"stylesheet\" href=\"/static/assets/css/highlight.css\">\n");
 
 </script>
 

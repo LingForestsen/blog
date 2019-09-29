@@ -36,7 +36,7 @@ public class TagController {
         Tag tag = tagService.selectById(new Tag(tagId));
         model.addAttribute("pageInfo", articlePageInfo);
         model.addAttribute("tag", tag);
-        model.addAttribute("pageUrlPrefix", "/tag?pageIndex");
+        model.addAttribute("pageUrlPrefix", "/tag/"+tagId+"?pageIndex");
         return "/home/page/articleListByTag";
     }
 

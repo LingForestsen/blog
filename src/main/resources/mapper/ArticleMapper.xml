@@ -7,6 +7,7 @@
         <id column="article_id" property="articleId"/>
         <result column="article_title" property="articleTitle"/>
         <result column="article_create_time" property="articleCreateTime"/>
+        <result column="article_update_time" property="articleUpdateTime"/>
         <result column="article_status" property="articleStatus"/>
         <result column="article_summary" property="articleSummary"/>
         <result column="article_view_count" property="articleViewCount"/>
@@ -44,6 +45,7 @@
             a.article_id
             ,a.article_status
             ,a.article_create_time
+            ,a.article_update_time
             ,a.article_title
             ,a.article_summary
             ,a.article_view_count

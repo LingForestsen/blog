@@ -14,10 +14,11 @@
                 <shiro:guest>
                         <a href="/admin">登录</a>
                 </shiro:guest>
-                <shiro:authenticated>
+                <shiro:user>
                         <a href="/admin">进入后台</a>
-                </shiro:authenticated>
-                <a href="https://liuyanzhao.com/bulletin/my-service" target="_blank" style="color:red;">毕设代做/有偿服务</a>
+                    &nbsp&nbsp&nbsp<a href="/logout" style="color: brown">注销</a>
+                </shiro:user>
+<%--                <a href="https://liuyanzhao.com/bulletin/my-service" target="_blank" style="color:red;">毕设代做/有偿服务</a>--%>
             </div>
             <div class="menu-topmenu-container">
                 <ul id="menu-topmenu" class="top-menu">

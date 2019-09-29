@@ -52,14 +52,7 @@ public class UserRealm extends AuthorizingRealm {
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
         String username = token.getPrincipal().toString();
-        String credentials = token.getCredentials().toString();
         User user = userService.login(username);
-        if (user != null) {
-            if (user.getUserPass().equals(credentials)) {
-                user.setUserLastLoginTime(new Date());
-                userService.update(user);
-            }
-        }
         SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(user
                 ,user.getUserPass(), ByteSource.Util.bytes(user.getUserSalt()), getName());
         return info;
@@ -70,8 +63,7 @@ public class UserRealm extends AuthorizingRealm {
      * 那么应该从spring容器中调用realm的清理缓存方法。
      * @param principals
      */
-    @Override
-    protected void clearCache(PrincipalCollection principals) {
+    public void clearCache(PrincipalCollection principals) {
         super.clearCache(principals);
     }
 }

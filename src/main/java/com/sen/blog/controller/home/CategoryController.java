@@ -34,7 +34,7 @@ public class CategoryController {
         PageInfo<Article> articlePageInfo = articleService.listArticlesByCategoryId(pageIndex, pageSize, categoryId);
         model.addAttribute("pageInfo", articlePageInfo);
         model.addAttribute("category", categoryService.selectById(new Category(categoryId)));
-        model.addAttribute("pageUrlPrefix", "/category?pageIndex");
+        model.addAttribute("pageUrlPrefix", "/category/"+categoryId+"?pageIndex");
         return "/home/page/articleListByCategory";
     }
 }

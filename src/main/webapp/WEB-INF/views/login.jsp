@@ -19,7 +19,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <title> &lsaquo; 登录</title>
     <link rel="stylesheet" href="/static/assets/plugin/font-awesome/css/font-awesome.min.css">
-    <link rel="shortcut icon" href="/static/assets/img/logo.png">
+    <link rel="shortcut icon" href="/static/assets/img/blog_net.png">
     <link rel='stylesheet' id='dashicons-css'  href='/static/assets/plugin/login/dashicons.min.css' type='text/css' media='all' />
     <link rel='stylesheet' id='buttons-css'  href='/static/assets/plugin/login/buttons.min.css' type='text/css' media='all' />
     <link rel='stylesheet' id='forms-css'  href='/static/assets/plugin/login/forms.min.css' type='text/css' media='all' />

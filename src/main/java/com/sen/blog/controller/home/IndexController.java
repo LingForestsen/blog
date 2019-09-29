@@ -2,18 +2,14 @@ package com.sen.blog.controller.home;
 
 import com.github.pagehelper.PageInfo;
 import com.sen.blog.entity.Article;
-import com.sen.blog.entity.Options;
 import com.sen.blog.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @Auther: Sen
@@ -69,6 +65,18 @@ public class IndexController {
         model.addAttribute("linkList", linkService.selectAll());
         //近期评论
         model.addAttribute("recentCommentList", commentService.listRecentComment(0, 10));
+        //最后更新的文章
+        PageInfo<Article> lastUpdateArticlePageInfo = articleService.listArticleAndCategory(1, 1, null);
+        model.addAttribute("lastUpdateArticle", lastUpdateArticlePageInfo.getList().get(0));
         return "/home/index";
+    }
+
+    /**
+     * 统一的问题处理页面
+     * @return
+     */
+    @RequestMapping(value = "/404", method = RequestMethod.GET)
+    public String show500() {
+        return "/home/error/404";
     }
 }

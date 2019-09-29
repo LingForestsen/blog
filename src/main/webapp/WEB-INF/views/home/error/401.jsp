@@ -5,7 +5,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>404 错误页面不存在</title>
+    <title>401 权限不足</title>
     <style type="text/css">
         body,div,h3,h4,li,ol{margin:0;padding:0}
         body{font:14px/1.5 'Microsoft YaHei','微软雅黑',Helvetica,Sans-serif;min-width:1200px;background:#f0f1f3;}
@@ -33,15 +33,15 @@
     <div class="error-page-container">
         <div class="error-page-main">
             <h3>
-                <strong>404</strong>很抱歉，您要访问的页面不存在！
+                <strong>401</strong>很抱歉，您不具有访问权限！
             </h3>
             <div class="error-page-actions">
                 <div>
-                    <h4>可能原因：</h4>
+                    <h4>解决方法：</h4>
                     <ol>
-                        <li>网络信号差不稳定</li>
-                        <li>找不到请求的页面</li>
-                        <li>输入的网址不正确</li>
+                        <li>联系管理员</li>
+                        <li>联系管理员</li>
+                        <li>还是联系管理员，重要事情说三遍</li>
                     </ol>
                 </div>
                 <div>

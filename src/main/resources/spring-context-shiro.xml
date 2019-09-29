@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
     <description>Spring Shiro整合配置文件</description>
 
     <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
@@ -10,13 +11,18 @@
         <!-- 当访问需要认证的资源时，没权限自动跳转到该页面 -->
         <property name="loginUrl" value="/login"/>
         <!-- 认证成功后的跳转页面，若不配置默认跳转上一个url -->
-        <property name="successUrl" value="/admin"/>
+        <property name="successUrl" value="/admin/success"/>
         <!-- 配置没有访问权限时跳转的页面 -->
-        <property name="unauthorizedUrl" value="/error"/>
+        <property name="unauthorizedUrl" value="/401"/>
+        <!-- 配置登录成功跳转过滤器路径 -->
+        <property name="filters">
+            <util:map>
+                <entry key="authc" value-ref="successUrlFilter"/>
+            </util:map>
+        </property>
         <!-- 配置shiro的过滤器链 -->
         <property name="filterChainDefinitions">
             <value>
-                /tologin=anon
                 /login=authc
                 /logout=logout
                 /static/**=anon
@@ -50,6 +56,8 @@
     <!-- 记住我配置 -->
     <bean id="rememberMeManager" class="org.apache.shiro.web.mgt.CookieRememberMeManager">
         <property name="cookie" ref="rememberMeCookie"/>
+        <!-- 解决cookie启动报错 -->
+        <property name="cipherKey" value="#{T(org.apache.shiro.codec.Base64).decode('6ZmI6I2j5Y+R5aSn5ZOlAA==')}"/>
     </bean>
 
     <!-- 记住我cookie -->
@@ -78,5 +86,7 @@
         <!-- 删除无效session -->
         <property name="deleteInvalidSessions" value="true"/>
     </bean>
+    <!-- 自定义登录成功跳转路径过滤器 -->
+    <bean id="successUrlFilter" class="com.sen.blog.shiro.SuccessUrlFilter"/>
 
 </beans>
