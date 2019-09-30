@@ -47,11 +47,12 @@
                         <script charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/changyan.js" ></script>
                         <script type="text/javascript">
                             window.changyan.api.config({
-                                appid: 'cytcdBHan',
-                                conf: 'prod_acc9eafcae7c468c116f87dfb853e677'
+                                appid: 'cyusHkMF0',
+                                conf: 'prod_6693afb705006a072663be63dd5d1329'
                             });
                         </script>
                     </div>
+
                     <br><br>
 
                     <footer class="single-footer">

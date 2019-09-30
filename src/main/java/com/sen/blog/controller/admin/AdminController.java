@@ -1,9 +1,11 @@
 package com.sen.blog.controller.admin;
 
 import com.sen.blog.entity.User;
+import com.sen.blog.exception_handler.IncorrectCaptchaException;
 import com.sen.blog.service.ArticleService;
 import com.sen.blog.service.CommentService;
 import com.sen.blog.service.UserService;
+import com.sen.blog.shiro.UserRealm;
 import com.sen.blog.utils.IpUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
@@ -32,6 +34,9 @@ public class AdminController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private UserRealm userRealm;
 
     /**
      * 跳转登录页
@@ -64,6 +69,8 @@ public class AdminController {
             model.addAttribute("message", "用户名或密码错误");
         } else if (AuthenticationException.class.getName().equals(className)) {
             model.addAttribute("message", "非法操作");
+        }else if (IncorrectCaptchaException.class.getName().equals(className)) {
+            model.addAttribute("message", "验证码不正确");
         }
     }
 

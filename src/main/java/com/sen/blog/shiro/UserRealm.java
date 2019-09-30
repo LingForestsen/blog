@@ -1,7 +1,9 @@
 package com.sen.blog.shiro;
 
 import com.sen.blog.entity.User;
+import com.sen.blog.exception_handler.IncorrectCaptchaException;
 import com.sen.blog.service.UserService;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
@@ -12,12 +14,11 @@ import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource;
 import org.springframework.beans.factory.annotation.Autowired;
-import java.util.Date;
 
 /**
  * @Auther: Sen
  * @Date: 2019/9/22 00:30
- * @Description:
+ * @Description: shiro自定义域
  */
 public class UserRealm extends AuthorizingRealm {
     @Autowired
@@ -51,6 +52,15 @@ public class UserRealm extends AuthorizingRealm {
      */
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
+        CaptchaAuthenticationToken captchaToken = (CaptchaAuthenticationToken) token;
+        // 增加判断验证码逻辑
+        String captcha = captchaToken.getKaptcha();
+        String exitCode = (String) SecurityUtils.getSubject().getSession().getAttribute("KAPTCHA_SESSION_KEY");
+        if (null == captcha || !captcha.equalsIgnoreCase(exitCode )|| "".equals(exitCode)) {
+            throw new IncorrectCaptchaException("验证码错误");
+        }
+
+        //登录相关逻辑
         String username = token.getPrincipal().toString();
         User user = userService.login(username);
         SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(user

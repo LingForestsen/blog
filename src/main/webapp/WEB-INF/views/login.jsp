@@ -79,9 +79,18 @@
                 <input type="password" name="pass" id="user_pass" class="input" size="20" required/>
             </label>
         </p>
+
+        <p>
+            <label for="kaptcha">验证码<br />
+                <div>
+                <input style="width:140px; margin:auto;float: left" type="text" name="kaptcha" id="kaptcha"size="5" required/>
+                <img style="margin:auto; padding: 3px;height: 39px;float: right;" id="validateCode" src="/kaptcha" onclick="changValidateCode()" title="看不清？换一张">
+                </div>
+            </label>
+        </p>
         <p class="forgetmenot"><label for="rememberme"><input name="rememberMe" type="checkbox" id="rememberme" value="1" checked /> 记住密码</label></p>
         <p class="submit">
-            <button class="button button-primary button-large">登录</button>
+            <button style="margin-top: 30px;width: 100px" class="button button-primary">登录</button>
         </p>
     </form>
     <p id="backtoblog"><a href="/">&larr; 返回博客首页</a></p>
@@ -95,7 +104,11 @@
         if (message != null && message.length > 0) {
             alert(message)
         }
-    })
+    });
+    //用户更换验证码
+    function changValidateCode() {
+        $("#validateCode").attr("src","/kaptcha?" + Math.floor(Math.random()*100));
+    }
 </script>
 </body>
 </html>
