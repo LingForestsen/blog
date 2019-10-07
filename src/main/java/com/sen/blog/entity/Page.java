@@ -3,6 +3,7 @@ package com.sen.blog.entity;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import java.io.Serializable;
 import java.util.Date;
@@ -19,7 +20,7 @@ public class Page implements Serializable {
     /**
      * 别名
      */
-    @Pattern(regexp = "/^[a-zA-Z0-9_-]{2,20}$/", message = "别名格式错误")
+    @NotNull(message = "别名不能为空")
     private String pageKey;
     @Length(min = 2, message = "标题长度至少为2")
     private String pageTitle;

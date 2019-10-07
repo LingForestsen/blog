@@ -2,6 +2,7 @@ package com.sen.blog.controller.admin;
 
 import com.sen.blog.entity.Options;
 import com.sen.blog.service.OptionsService;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,6 +30,7 @@ public class BackgroundOptionsController {
         return "/admin/options/index";
     }
 
+    @RequiresPermissions("admin:manager")
     @RequestMapping(value = "/editSubmit", method = RequestMethod.POST)
     public String editSubmit(Options options) {
         optionsService.update(options);

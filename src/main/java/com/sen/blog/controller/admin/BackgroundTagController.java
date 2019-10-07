@@ -3,14 +3,14 @@ package com.sen.blog.controller.admin;
 import com.sen.blog.common.CommonValidatorMethod;
 import com.sen.blog.entity.Tag;
 import com.sen.blog.service.TagService;
-import org.omg.CORBA.PUBLIC_MEMBER;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
@@ -44,9 +44,10 @@ public class BackgroundTagController extends CommonValidatorMethod<Tag> {
      * @param tag
      * @return
      */
+    @RequiresPermissions("admin:manager")
     @RequestMapping(value = "/insertSubmit", method = RequestMethod.POST)
-    public String insertTagtSubmit(Tag tag, HttpServletResponse response, Model model) {
-        if (!validate(model, tag, "/admin/tag", response)) {
+    public String insertTagtSubmit(Tag tag, HttpServletResponse response, RedirectAttributes redirectAttributes) {
+        if (!validate(redirectAttributes, tag, "/admin/tag", response)) {
             return null;
         }
         tagService.insert(tag);
@@ -74,9 +75,10 @@ public class BackgroundTagController extends CommonValidatorMethod<Tag> {
      * @param tag
      * @return
      */
+    @RequiresPermissions("admin:manager")
     @RequestMapping(value = "/editSubmit", method = RequestMethod.POST)
-    public String editTagSubmit(Tag tag, HttpServletResponse response, Model model) {
-        if (!validate(model, tag, "/admin/tag", response)) {
+    public String editTagSubmit(Tag tag, HttpServletResponse response, RedirectAttributes redirectAttributes) {
+        if (!validate(redirectAttributes, tag, "/admin/tag", response)) {
             return null;
         }
         tagService.update(tag);

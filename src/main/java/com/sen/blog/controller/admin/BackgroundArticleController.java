@@ -10,6 +10,7 @@ import com.sen.blog.entity.User;
 import com.sen.blog.service.ArticleService;
 import com.sen.blog.service.CategoryService;
 import com.sen.blog.service.TagService;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,6 +18,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
@@ -74,12 +77,13 @@ public class BackgroundArticleController {
     /**
      * 新增文章
      * @param articleDto 文章传输模型
-     * @param model
+     * @param redirectAttributes
      * @return
      */
+    @RequiresPermissions("admin:manager")
     @RequestMapping(value = "/insertSubmit",method = RequestMethod.POST)
-    public String insertArticle(ArticleDto articleDto, Model model, HttpServletResponse response) {
-        User user = CommonValidatorMethod.validateArticle(model, articleDto, "/admin/article/insert", response);
+    public String insertArticle(ArticleDto articleDto, RedirectAttributes redirectAttributes, HttpServletResponse response) {
+        User user = CommonValidatorMethod.validateArticle(redirectAttributes, articleDto, "/admin/article/insert", response);
         if (user == null) {
             return null;
         }
@@ -92,9 +96,10 @@ public class BackgroundArticleController {
      * @param articleDto
      * @return
      */
+    @RequiresPermissions("admin:manager")
     @RequestMapping(value = "/insertDraftSubmit", method = RequestMethod.POST)
-    public String insertDraftSubmit(ArticleDto articleDto,Model model,HttpServletResponse response) {
-        User user = CommonValidatorMethod.validateArticle(model, articleDto, "/admin/article", response);
+    public String insertDraftSubmit(ArticleDto articleDto,RedirectAttributes redirectAttributes,HttpServletResponse response) {
+        User user = CommonValidatorMethod.validateArticle(redirectAttributes, articleDto, "/admin/article", response);
         if (user == null) {
             return null;
         }
@@ -132,12 +137,13 @@ public class BackgroundArticleController {
     /**
      * 保存编辑文章
      * @param articleDto
-     * @param model
+     * @param redirectAttributes
      * @return
      */
+    @RequiresPermissions("admin:manager")
     @RequestMapping(value = "/editSubmit", method = RequestMethod.POST)
-    public String editSubmit(ArticleDto articleDto, Model model, HttpServletResponse response) {
-        User user = CommonValidatorMethod.validateArticle(model, articleDto, "/admin/article/edit", response);
+    public String editSubmit(ArticleDto articleDto, RedirectAttributes redirectAttributes, HttpServletResponse response) {
+        User user = CommonValidatorMethod.validateArticle(redirectAttributes, articleDto, "/admin/article/edit", response);
         if (user == null) {
             return null;
         }
@@ -150,6 +156,7 @@ public class BackgroundArticleController {
      * @param articleId
      * @return
      */
+    @RequiresPermissions("admin:manager")
     @RequestMapping(value = "/delete/{articleId}",method = RequestMethod.POST)
     public String deleteArticle(@PathVariable Integer articleId) {
         articleService.delete(articleId);

@@ -84,14 +84,4 @@ public class AdminController {
         }
         return "redirect:/admin";
     }
-
-    /**
-     * 权限不足跳转页面
-     * @return
-     */
-    @RequestMapping(value = "/401",method = RequestMethod.GET)
-    public String show401() {
-        return "/home/error/401";
-    }
-
 }

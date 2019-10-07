@@ -5,6 +5,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <link rel="shortcut icon" href="/static/assets/img/blog_net.png">
     <title>500 服务器错误</title>
     <style type="text/css">
         body,div,h3,h4,li,ol{margin:0;padding:0}

@@ -5,6 +5,9 @@ import com.sen.blog.entity.User;
 import com.sen.blog.service.UserService;
 import com.sen.blog.shiro.UserRealm;
 import com.sen.blog.utils.MapperUtils;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.crypto.hash.Md5Hash;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,7 +15,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 import javax.servlet.http.HttpServletResponse;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -97,15 +103,27 @@ public class BackgroundUserController extends CommonValidatorMethod<User> {
         return json;
     }
 
+    @RequiresPermissions("admin:manager")
     @RequestMapping(value = "/editSubmit", method = RequestMethod.POST)
-    public String editSubmit(User user, Model model, HttpServletResponse response) {
-        if (!validate(model, user, "/admin/user", response)) {
+    public String editSubmit(User user, RedirectAttributes redirectAttributes, HttpServletResponse response) {
+        if (!validate(redirectAttributes, user, "/admin/user", response)) {
             return null;
         }
+        //将接收到的密码进行加密
+        Md5Hash md5Pass = new Md5Hash(user.getUserPass(), "sxt", 2);
+        user.setUserPass(md5Pass.toString());
         userService.update(user);
+        User tokenUser = (User) SecurityUtils.getSubject().getPrincipal();
+
+        //过修改的信息是当前登录的用户刷新缓存
+        if (user.getUserId() == tokenUser.getUserId()) {
+            UserRealm userRealm = new UserRealm();
+            userRealm.clearCache(SecurityUtils.getSubject().getPrincipals());
+        }
         return "redirect:/admin/user";
     }
 
+    @RequiresPermissions("admin:manager")
     @RequestMapping(value = "/delete/{userId}", method = RequestMethod.GET)
     public String delete(@PathVariable int userId) {
         userService.delete(userId);
@@ -117,11 +135,16 @@ public class BackgroundUserController extends CommonValidatorMethod<User> {
         return "/admin/user/insert";
     }
 
+    @RequiresPermissions("admin:manager")
     @RequestMapping(value = "/insertSubmit", method = RequestMethod.POST)
-    public String insertSubmit(User user, Model model, HttpServletResponse response) {
-        if (!validate(model, user, "/admin/user/insert", response)) {
+    public String insertSubmit(User user, RedirectAttributes redirectAttributes, HttpServletResponse response) {
+        if (!validate(redirectAttributes, user, "/admin/user/insert", response)) {
             return null;
         }
+        Md5Hash md5Pass = new Md5Hash(user.getUserPass(), "sxt", 2);
+        user.setUserPass(md5Pass.toString());
+        user.setUserSalt("sxt");
+        user.setUserRegisterTime(new Date());
         userService.insert(user);
         return "redirect:/admin/user";
     }

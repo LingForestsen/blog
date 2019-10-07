@@ -77,13 +77,13 @@
                 user_last_login_ip = #{userLastLoginIp},
             </if>
             <if test="userRegisterTime != null">
-                user_last_login_ip = #{userRegisterTime},
+                user_register_time = #{userRegisterTime},
             </if>
             <if test="userSalt != null">
-                user_last_login_ip = #{userSalt},
+                user_salt = #{userSalt},
             </if>
             <if test="userPermission != null and userPermission != ''">
-                user_last_login_ip = #{userPermission}
+                user_permission = #{userPermission}
             </if>
         </set>
         WHERE user_id = #{userId};

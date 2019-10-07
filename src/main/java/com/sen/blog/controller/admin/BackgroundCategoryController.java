@@ -3,12 +3,15 @@ package com.sen.blog.controller.admin;
 import com.sen.blog.common.CommonValidatorMethod;
 import com.sen.blog.entity.Category;
 import com.sen.blog.service.CategoryService;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
@@ -39,13 +42,14 @@ public class BackgroundCategoryController extends CommonValidatorMethod<Category
     /**
      * 新增文章分类
      * @param category
-     * @param model
+     * @param redirectAttributes
      * @param response
      * @return
      */
+    @RequiresPermissions("admin:manager")
     @RequestMapping(value = "/insertSubmit", method = RequestMethod.POST)
-    public String insertCategorySubmit(Category category, Model model, HttpServletResponse response) {
-        if (!validate(model, category, "/admin/category", response)) {
+    public String insertCategorySubmit(Category category, RedirectAttributes redirectAttributes, HttpServletResponse response) {
+        if (!validate(redirectAttributes, category, "/admin/category", response)) {
             return null;
         }
         categoryService.insert(category);
@@ -76,13 +80,14 @@ public class BackgroundCategoryController extends CommonValidatorMethod<Category
     /**
      * 修改分类
      * @param category
-     * @param model
+     * @param redirectAttributes
      * @param response
      * @return
      */
+    @RequiresPermissions("admin:manager")
     @RequestMapping(value = "/editSubmit", method = RequestMethod.POST)
-    public String insertEditSubmit(Category category, Model model, HttpServletResponse response) {
-        if (!validate(model, category, "/admin/category", response)) {
+    public String insertEditSubmit(Category category, RedirectAttributes redirectAttributes, HttpServletResponse response) {
+        if (!validate(redirectAttributes, category, "/admin/category", response)) {
             return null;
         }
         categoryService.update(category);

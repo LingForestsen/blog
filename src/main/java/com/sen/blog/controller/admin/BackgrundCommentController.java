@@ -5,6 +5,7 @@ import com.sen.blog.entity.Comment;
 import com.sen.blog.service.ArticleService;
 import com.sen.blog.service.CommentService;
 import com.sen.blog.utils.IpUtils;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -61,12 +62,15 @@ public class BackgrundCommentController {
         return "/admin/comment/edit";
     }
 
+
+    @RequiresPermissions("admin:manager")
     @RequestMapping(value = "/editSubmit" ,method = RequestMethod.POST)
     public String editSubmit(Comment comment) {
         commentService.update(comment);
         return "redirect:/admin/comment";
     }
 
+    @RequiresPermissions("admin:manager")
     @RequestMapping(value = "/delete/{commentId}", method = RequestMethod.POST)
     public String deleteComment(@PathVariable int commentId){
         Comment comment = commentService.selectById(new Comment(commentId));

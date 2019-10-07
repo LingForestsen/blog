@@ -38,7 +38,6 @@
     <update id="update" flushCache="true">
         UPDATE link
         SET
-        link_id = #{linkId},
         link_url = #{linkUrl},
         link_name = #{linkName},
         link_image = #{linkImage},

@@ -5,6 +5,8 @@ import com.sen.blog.dto.ArticleDto;
 import com.sen.blog.entity.User;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.ui.Model;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
@@ -16,18 +18,18 @@ import java.io.IOException;
 public class CommonValidatorMethod<T> {
     /**
      * 验证字段合法性
-     * @param model
+     * @param redirectAttributes
      * @param articleDto
      * @param url
      * @param response
      * @return
      */
-    public static User validateArticle(Model model, ArticleDto articleDto, String url, HttpServletResponse response) {
+    public static User validateArticle(RedirectAttributes redirectAttributes, ArticleDto articleDto, String url, HttpServletResponse response) {
         //验证articleDto是否合法
         String vaildateMessage = BeanValidator.validator(articleDto);
         if (vaildateMessage != null) {
             String cleanMsg = HtmlUtil.cleanHtmlTag(vaildateMessage);
-            model.addAttribute("vaildateMessage", cleanMsg);
+            redirectAttributes.addFlashAttribute("vaildateMessage", cleanMsg);
             try {
                 response.sendRedirect(url);
             } catch (IOException e) {
@@ -42,18 +44,18 @@ public class CommonValidatorMethod<T> {
 
     /**
      * 通用的验证字段合法性
-     * @param model
+     * @param redirectAttributes
      * @param t
      * @param url
      * @param response
      * @return
      */
-    public boolean validate(Model model, T t, String url, HttpServletResponse response) {
+    public boolean validate(RedirectAttributes redirectAttributes, T t, String url, HttpServletResponse response) {
         //验证T是否合法
         String vaildateMessage = BeanValidator.validator(t);
         if (vaildateMessage != null) {
             String cleanMsg = HtmlUtil.cleanHtmlTag(vaildateMessage);
-            model.addAttribute("vaildateMessage", cleanMsg);
+            redirectAttributes.addFlashAttribute("vaildateMessage", cleanMsg);
             try {
                 if (response != null) {
                     response.sendRedirect(url);

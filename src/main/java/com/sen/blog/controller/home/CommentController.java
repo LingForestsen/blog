@@ -17,6 +17,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 
@@ -36,7 +38,7 @@ public class CommentController extends CommonValidatorMethod<Comment> {
     private ArticleService articleService;
 
     @RequestMapping(value = "/comment", method = RequestMethod.POST)
-    public BaseResult commitComment(Model model, Comment comment, HttpServletRequest request) {
+    public BaseResult commitComment(RedirectAttributes redirectAttributes, Comment comment, HttpServletRequest request) {
         comment.setCommentIp(IpUtils.getIpAddr(request));
         comment.setCommentCreateTime(new Date());
         //设置通用头象
@@ -51,7 +53,7 @@ public class CommentController extends CommonValidatorMethod<Comment> {
 
         //封装返回结果
         BaseResult baseResult = null;
-        if (!validate(model, comment, null, null)) {
+        if (!validate(redirectAttributes, comment, null, null)) {
             baseResult = BaseResult.failed("请检查您的邮箱格式否正确");
         } else {
             commentService.insert(comment);

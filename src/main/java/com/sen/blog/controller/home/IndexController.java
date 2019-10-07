@@ -71,12 +71,4 @@ public class IndexController {
         return "/home/index";
     }
 
-    /**
-     * 统一的问题处理页面
-     * @return
-     */
-    @RequestMapping(value = "/404", method = RequestMethod.GET)
-    public String show500() {
-        return "/home/error/404";
-    }
 }
