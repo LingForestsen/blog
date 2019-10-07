@@ -136,7 +136,7 @@
 
     <div class="layui-footer" align="center">
         <!-- 底部固定区域 -->
-        © <a href="/article">言曌博客</a> 2019  欢迎加入开发者交流群 590480292 <a href="https://liuyanzhao.com/bulletin/my-service/" target="_blank">原博客主页</a>
+        © <a href="/article">SumForstBlog</a> 2019  欢迎加入开发者交流群 590480292 <a href="https://liuyanzhao.com/bulletin/my-service/" target="_blank">原博客主页</a>
     </div>
 </div>
 
