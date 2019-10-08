@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @Auther: Sen
@@ -48,7 +50,9 @@ public class IndexController {
         //顶部通知
         model.addAttribute("noticeList", noticeService.selectAll());
         //左侧文章菜单
-        PageInfo<Article> articlePageInfo = articleService.listArticleAndCategory(pageIndex, pageSize, null);
+        HashMap<String,Object> criteria = new HashMap<>();
+        criteria.put("status", 1);
+        PageInfo<Article> articlePageInfo = articleService.listArticleAndCategory(pageIndex, pageSize, criteria);
         model.addAttribute("pageInfo", articlePageInfo);
         model.addAttribute("pageUrlPrefix", "/article?pageIndex");
 
